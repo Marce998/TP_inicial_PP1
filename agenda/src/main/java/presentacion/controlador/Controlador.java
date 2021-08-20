@@ -2,6 +2,7 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
 
 import modelo.Agenda;
@@ -35,7 +36,9 @@ public class Controlador implements ActionListener
 		private void guardarPersona(ActionEvent p) {
 			String nombre = this.ventanaPersona.getTxtNombre().getText();
 			String tel = ventanaPersona.getTxtTelefono().getText();
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel);
+			String email= ventanaPersona.getTxtEmail().getText();
+			java.sql.Date fechaNac= Date.valueOf(ventanaPersona.getTxtFechaNac().getText());
+			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac);
 			this.agenda.agregarPersona(nuevaPersona);
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
