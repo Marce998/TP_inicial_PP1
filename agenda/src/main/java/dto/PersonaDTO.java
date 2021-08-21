@@ -9,14 +9,18 @@ public class PersonaDTO
 	private String telefono;
 	private String email;
 	private java.sql.Date fechaNac;
+	private String domicilio;
+	private String tipo;
 
-	public PersonaDTO(int idPersona, String nombre, String telefono,String email,java.sql.Date fechaNac)
+	public PersonaDTO(int idPersona, String nombre, String telefono,String email,java.sql.Date fechaNac, String domicilio, String tipo)
 	{
 		this.idPersona = idPersona;
 		this.nombre = nombre;
 		this.telefono = telefono;
-		this.email= email;
-		this.fechaNac=fechaNac;
+		this.email = email;
+		this.fechaNac = fechaNac;
+		this.domicilio = domicilio;
+		this.tipo = tipo;
 	}
 	
 	public int getIdPersona() 
@@ -61,4 +65,19 @@ public class PersonaDTO
 		return this.fechaNac;
 	}
 	
+	public String getDomicilio(){
+		return this.domicilio;
+	}
+	
+	public void setDomicilio(String domicilio){
+		this.domicilio = domicilio;
+	}
+	
+	public String getTipo() {
+		return this.tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 }

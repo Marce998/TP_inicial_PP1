@@ -14,7 +14,7 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac) VALUES(?, ?, ?,?,?)";
+	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,domicilio,tipo) VALUES(?, ?, ?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
 		
@@ -31,6 +31,8 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4,persona.getEmail());
 			statement.setDate(5,persona.getFechaNac());
+			statement.setString(6, persona.getDomicilio());
+			statement.setString(7, persona.getTipo());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -101,6 +103,8 @@ public class PersonaDAOSQL implements PersonaDAO
 		String tel = resultSet.getString("Telefono");
 		String email= resultSet.getString("Email");
 		java.sql.Date fechaNac= resultSet.getDate("fechaNac");
-		return new PersonaDTO(id, nombre, tel,email,fechaNac);
+		String domicilio = resultSet.getString("Domicilio");
+		String tipo = resultSet.getString("Tipo");
+		return new PersonaDTO(id, nombre, tel,email,fechaNac,domicilio,tipo);
 	}
 }

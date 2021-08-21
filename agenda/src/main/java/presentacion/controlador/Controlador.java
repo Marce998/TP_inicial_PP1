@@ -38,7 +38,10 @@ public class Controlador implements ActionListener
 			String tel = ventanaPersona.getTxtTelefono().getText();
 			String email= ventanaPersona.getTxtEmail().getText();
 			java.sql.Date fechaNac= Date.valueOf(ventanaPersona.getTxtFechaNac().getText());
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac);
+			String domicilio = ventanaPersona.getTxtCalle().getText() + ", " + ventanaPersona.getTxtAltura().getText() + 
+					", Piso: " + ventanaPersona.getTxtPiso().getText() + ", Depto: " + ventanaPersona.getTxtDepto().getText();
+			String tipo = ventanaPersona.getTxtTipo().getSelectedItem().toString();
+			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac,domicilio,tipo);
 			this.agenda.agregarPersona(nuevaPersona);
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();

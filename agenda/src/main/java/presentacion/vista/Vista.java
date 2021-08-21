@@ -25,7 +25,7 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento"};
+	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento","Domicilio","Tipo"};
 
 	public Vista() 
 	{
@@ -61,6 +61,11 @@ public class Vista
 		tablaPersonas.getColumnModel().getColumn(2).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(3).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(3).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(4).setPreferredWidth(200);
+		tablaPersonas.getColumnModel().getColumn(4).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(5).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(5).setResizable(false);
+		
 		
 		spPersonas.setViewportView(tablaPersonas);
 		
@@ -143,7 +148,9 @@ public class Vista
 			String tel = p.getTelefono();
 			String email=p.getEmail();
 			java.sql.Date fechaNac= p.getFechaNac();
-			Object[] fila = {nombre, tel,email,fechaNac};
+			String domicilio = p.getDomicilio();
+			String tipo = p.getTipo();
+			Object[] fila = {nombre, tel,email,fechaNac,domicilio,tipo};
 			this.getModelPersonas().addRow(fila);
 		}
 		
