@@ -61,6 +61,13 @@
 		    <!-- USAR LA VERSIÓN 5.1.44 SI USÁS MYSQL8 --> 
 		    <version>5.1.44</version>
 		</dependency>
+		
+		<!-- Json in java -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20210307</version>
+		</dependency>
 
     </dependencies>
 
