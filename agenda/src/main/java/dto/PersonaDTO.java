@@ -65,6 +65,10 @@ public class PersonaDTO
 		return this.fechaNac;
 	}
 	
+	public void setFechaNac(java.sql.Date fecha) {
+		this.fechaNac=fecha;
+	}
+	
 	public String getDomicilio(){
 		return this.domicilio;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
 import dto.PersonaDTO;
@@ -15,7 +16,8 @@ public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
-		private VentanaPersona ventanaPersona; 
+		private VentanaPersona ventanaPersona;
+		private VentanaEditarPersona ventanaEditarPersona;
 		private Agenda agenda;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -24,13 +26,29 @@ public class Controlador implements ActionListener
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
+			this.vista.getBtnEditar().addActionListener(m->ventanaModificarPersona(m));
 			this.ventanaPersona = VentanaPersona.getInstance();
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
-			this.agenda = agenda;
+			this.ventanaEditarPersona=VentanaEditarPersona.getInstance();
+			this.ventanaEditarPersona.getBtnAplicarCambios().addActionListener(e->aplicarCambiosPersona(e));
+			this.agenda = agenda;	
 		}
 		
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
+		}
+		
+		private void ventanaModificarPersona(ActionEvent m) {
+			this.ventanaEditarPersona.mostrarVentana();
+			
+			int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
+			
+			this.ventanaEditarPersona.getTxtNombre().setText(this.personasEnTabla.get(filaSeleccionada).getNombre());
+			this.ventanaEditarPersona.getTxtTelefono().setText(this.personasEnTabla.get(filaSeleccionada).getTelefono());
+			this.ventanaEditarPersona.getTxtEmail().setText(this.personasEnTabla.get(filaSeleccionada).getEmail());
+			this.ventanaEditarPersona.getTxtFechaNac().setText(this.personasEnTabla.get(filaSeleccionada).getFechaNac().toString());
+			this.ventanaEditarPersona.getTxtTipo().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getTipo());
+			
 		}
 
 		private void guardarPersona(ActionEvent p) {
@@ -46,6 +64,27 @@ public class Controlador implements ActionListener
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
 		}
+		
+		private void aplicarCambiosPersona(ActionEvent e) {
+			int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
+			
+			PersonaDTO persona= this.personasEnTabla.get(filaSeleccionada);
+			
+			persona.setNombre(this.ventanaEditarPersona.getTxtNombre().getText());
+			persona.setTelefono(this.ventanaEditarPersona.getTxtTelefono().getText());
+			persona.setEmail(this.ventanaEditarPersona.getTxtEmail().getText());
+			persona.setFechaNac(Date.valueOf(this.ventanaEditarPersona.getTxtFechaNac().getText()));
+			persona.setTipo(this.ventanaEditarPersona.getTxtTipo().getSelectedItem().toString());
+			persona.setDomicilio(this.ventanaEditarPersona.getTxtCalle().getText() + "," + this.ventanaEditarPersona.getTxtAltura().getText() + 
+			", Piso: " + this.ventanaEditarPersona.getTxtPiso().getText() + ", Depto: " + this.ventanaEditarPersona.getTxtDepto().getText());
+			
+			
+			this.agenda.actualizarPersona(persona);
+			
+			this.refrescarTabla();
+			
+			this.ventanaEditarPersona.cerrar();
+		}
 
 		private void mostrarReporte(ActionEvent r) {
 			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
@@ -59,7 +98,6 @@ public class Controlador implements ActionListener
 			{
 				this.agenda.borrarPersona(this.personasEnTabla.get(fila));
 			}
-			
 			this.refrescarTabla();
 		}
 		

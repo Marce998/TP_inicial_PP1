@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ public class PersonaDAOSQL implements PersonaDAO
 	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,domicilio,tipo) VALUES(?, ?, ?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
+	private static final String update = "UPDATE personas SET nombre=?,telefono=?,email=?,fechaNac=?,domicilio=?,tipo=? WHERE idPersona=?";
 		
 	public boolean insert(PersonaDTO persona)
 	{
@@ -72,6 +72,40 @@ public class PersonaDAOSQL implements PersonaDAO
 			e.printStackTrace();
 		}
 		return isdeleteExitoso;
+	}
+	
+	public boolean update(PersonaDTO persona_a_actualizar) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso = false;
+		try
+		{
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, persona_a_actualizar.getNombre());
+			statement.setString(2, persona_a_actualizar.getTelefono());
+			statement.setString(3,persona_a_actualizar.getEmail());
+			statement.setDate(4,persona_a_actualizar.getFechaNac());
+			statement.setString(5, persona_a_actualizar.getDomicilio());
+			statement.setString(6, persona_a_actualizar.getTipo());
+			statement.setInt(7, persona_a_actualizar.getIdPersona());
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isUpdateExitoso;
+		
 	}
 	
 	public List<PersonaDTO> readAll()
