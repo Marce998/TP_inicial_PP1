@@ -1,7 +1,5 @@
 package presentacion.vista;
 
-import java.util.Locale;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -223,6 +221,18 @@ public class VentanaPersona extends JFrame
 		return txtTipo;
 	}
 	
+	public JComboBox getTxtPais() {
+		return txtPais;
+	}
+	
+	public JComboBox getTxtLocalidad() {
+		return txtLocalidad;
+	}
+	
+	public JComboBox getTxtProvincia() {
+		return txtProvincia;
+	}
+	
 
 	public JButton getBtnAgregarPersona() 
 	{
@@ -236,6 +246,10 @@ public class VentanaPersona extends JFrame
 		this.txtNombre.setText(null);
 		this.txtTelefono.setText(null);
 		this.txtEmail.setText(null);
+		this.txtFechaNac.setText(null);
+		this.txtAltura.setText(null);
+		this.txtCalle.setText(null);
+		this.txtDepto.setText(null);
 		this.dispose();
 	}
 }
