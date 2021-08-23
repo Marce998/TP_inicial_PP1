@@ -10,5 +10,8 @@ CREATE TABLE `personas`
   `fechaNac` date NOT NULL,
   `Domicilio` varchar(100) NOT NULL,
   `Tipo` varchar(20) NOT NULL,
+  `Pais` varchar(30) NOT NULL,
+  `Provincia` varchar(30) NOT NULL,
+  `Localidad` varchar(30) NOT NULL,
   PRIMARY KEY (`idPersona`)
 );
