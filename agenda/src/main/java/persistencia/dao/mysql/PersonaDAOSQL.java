@@ -13,7 +13,7 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,domicilio,tipo) VALUES(?, ?, ?,?,?,?,?)";
+	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,tipo,domicilio,pais,provincia,localidad) VALUES(?, ?, ?,?,?,?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
 	private static final String update = "UPDATE personas SET nombre=?,telefono=?,email=?,fechaNac=?,domicilio=?,tipo=? WHERE idPersona=?";
@@ -31,8 +31,11 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(3, persona.getTelefono());
 			statement.setString(4,persona.getEmail());
 			statement.setDate(5,persona.getFechaNac());
-			statement.setString(6, persona.getDomicilio());
-			statement.setString(7, persona.getTipo());
+			statement.setString(6, persona.getTipo());
+			statement.setString(7, persona.getDomicilio());
+			statement.setString(8, persona.getPais());
+			statement.setString(9, persona.getProvincia());
+			statement.setString(10, persona.getLocalidad());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -139,6 +142,9 @@ public class PersonaDAOSQL implements PersonaDAO
 		java.sql.Date fechaNac= resultSet.getDate("fechaNac");
 		String domicilio = resultSet.getString("Domicilio");
 		String tipo = resultSet.getString("Tipo");
-		return new PersonaDTO(id, nombre, tel,email,fechaNac,domicilio,tipo);
+		String pais = resultSet.getString("Pais");
+		String provincia = resultSet.getString("Provincia");
+		String localidad = resultSet.getString("Localidad");
+		return new PersonaDTO(id, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad);
 	}
 }

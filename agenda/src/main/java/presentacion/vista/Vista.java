@@ -26,7 +26,7 @@ public class Vista
 	private JButton btnReporte;
 	private JButton btnEditar;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento","Domicilio","Tipo"};
+	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento","Domicilio","Tipo","Pais","Provincia","Localidad"};
 
 	public Vista() 
 	{
@@ -157,7 +157,10 @@ public class Vista
 			java.sql.Date fechaNac= p.getFechaNac();
 			String domicilio = p.getDomicilio();
 			String tipo = p.getTipo();
-			Object[] fila = {nombre, tel,email,fechaNac,domicilio,tipo};
+			String pais = p.getPais();
+			String provincia = p.getProvincia();
+			String localidad = p.getLocalidad();
+			Object[] fila = {nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad};
 			this.getModelPersonas().addRow(fila);
 		}
 		

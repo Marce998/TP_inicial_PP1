@@ -59,7 +59,10 @@ public class Controlador implements ActionListener
 			String domicilio = ventanaPersona.getTxtCalle().getText() + ", " + ventanaPersona.getTxtAltura().getText() + 
 					", Piso: " + ventanaPersona.getTxtPiso().getText() + ", Depto: " + ventanaPersona.getTxtDepto().getText();
 			String tipo = ventanaPersona.getTxtTipo().getSelectedItem().toString();
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac,domicilio,tipo);
+			String pais = ventanaPersona.getTxtPais().getSelectedItem().toString();
+			String provincia = ventanaPersona.getTxtProvincia().getSelectedItem().toString();
+			String localidad = ventanaPersona.getTxtLocalidad().getSelectedItem().toString();
+			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad);
 			this.agenda.agregarPersona(nuevaPersona);
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
