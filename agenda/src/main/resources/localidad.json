@@ -8,21 +8,21 @@
 			"localidades":[
 				{"nombre":"San Miguel"},
 				{"nombre":"Malvinas Argentinas"},
-				{"nombre":"JosÃ© C. Paz"}]
+				{"nombre":"José C. Paz"}]
 			},
 			{
-			"nombre":"Santa FÃ©",
+			"nombre":"Santa Fé",
 			"localidades":[
 				{"nombre":"Rufino"},
 				{"nombre":"Rosario"},
-				{"nombre":"ColÃ³n"}]
+				{"nombre":"Colón"}]
 			},
 			{
-			"nombre":"Entre RÃ­os",
+			"nombre":"Entre Ríos",
 			"localidades":[
 				{"nombre":"Gualeguay"},
-				{"nombre":"GualeguaychÃº"},
-				{"nombre":"ColÃ³n"}]
+				{"nombre":"Gualeguaychú"},
+				{"nombre":"Colón"}]
 			},
 			{
 			"nombre":"Tierra del Fuego",
@@ -30,9 +30,9 @@
 				{"nombre":"Ushuaia"}]
 			},
 			{
-			"nombre":"CÃ³rdoba",
+			"nombre":"Córdoba",
 			"localidades":[
-				{"nombre":"CÃ³rdoba"},
+				{"nombre":"Córdoba"},
 				{"nombre":"Salsipuedes"}]
 			}
 		]
