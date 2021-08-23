@@ -312,7 +312,7 @@ public class VentanaPersona extends JFrame
 		localidades.clear();
 		
 		JSONParser jsonParser = new JSONParser();
-		try(FileReader reader = new FileReader("C:\\Users\\tahie\\git\\TP_inicial_PP1\\agenda\\src\\main\\resources\\localidad.json")){
+		try(FileReader reader = new FileReader("src/main/resources/localidad.json")){
 			Object obj = jsonParser.parse(reader);
 			
 			JSONArray localidadesObj =  (JSONArray) obj;
