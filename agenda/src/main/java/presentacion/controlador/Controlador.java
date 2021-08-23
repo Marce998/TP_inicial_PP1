@@ -48,6 +48,9 @@ public class Controlador implements ActionListener
 			this.ventanaEditarPersona.getTxtEmail().setText(this.personasEnTabla.get(filaSeleccionada).getEmail());
 			this.ventanaEditarPersona.getTxtFechaNac().setText(this.personasEnTabla.get(filaSeleccionada).getFechaNac().toString());
 			this.ventanaEditarPersona.getTxtTipo().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getTipo());
+			this.ventanaEditarPersona.getTxtPais().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getPais());
+			this.ventanaEditarPersona.getTxtProvincia().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getProvincia());
+			this.ventanaEditarPersona.getTxtLocalidad().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getLocalidad());
 			
 		}
 
@@ -80,6 +83,9 @@ public class Controlador implements ActionListener
 			persona.setTipo(this.ventanaEditarPersona.getTxtTipo().getSelectedItem().toString());
 			persona.setDomicilio(this.ventanaEditarPersona.getTxtCalle().getText() + "," + this.ventanaEditarPersona.getTxtAltura().getText() + 
 			", Piso: " + this.ventanaEditarPersona.getTxtPiso().getText() + ", Depto: " + this.ventanaEditarPersona.getTxtDepto().getText());
+			persona.setPais(this.ventanaEditarPersona.getTxtPais().getSelectedItem().toString());
+			persona.setProvincia(this.ventanaEditarPersona.getTxtProvincia().getSelectedItem().toString());
+			persona.setLocalidad(this.ventanaEditarPersona.getTxtLocalidad().getSelectedItem().toString());
 			
 			
 			this.agenda.actualizarPersona(persona);
