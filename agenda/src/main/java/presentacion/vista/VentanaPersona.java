@@ -314,12 +314,6 @@ public class VentanaPersona extends JFrame
 		return btnAgregarPersona;
 	}
 	
-	public void recargarTiposContacto() {
-		tipoContacto tc= new tipoContacto();
-		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
-		txtTipo.setModel(modeloTiposContacto);
-	}
-	
 	
 	public void cargarLocalidades(int numPais,int numProvincia){
 		paises.clear();

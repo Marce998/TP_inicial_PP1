@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+
 import modelo.Agenda;
 import persistencia.datosDesplegables.mysql.tipoContacto;
 import presentacion.reportes.ReporteAgenda;
@@ -13,16 +15,19 @@ import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
 import presentacion.vista.ventanaABMtipoContacto;
 import presentacion.vista.ventanaAltaTipoContacto;
+import presentacion.vista.ventanaBajaTipoContacto;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personasEnTabla;
+		private List<tipoContacto> tiposDeContacto;
 		private VentanaPersona ventanaPersona;
 		private VentanaEditarPersona ventanaEditarPersona;
 		private ventanaABMtipoContacto ventanaABMtipo;
 		private ventanaAltaTipoContacto ventanaAltaTipo;
+		private ventanaBajaTipoContacto ventanaBajaTipo;
 		private Agenda agenda;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -39,10 +44,14 @@ public class Controlador implements ActionListener
 			
 			this.ventanaABMtipo=ventanaABMtipoContacto.getInstance();
 			this.ventanaABMtipo.getBtnAgregarTipo().addActionListener(a->ventanaAltaTipoContacto(a));
+			this.ventanaABMtipo.getBtnEliminarTipo().addActionListener(e->ventanaBajaTipoContacto(e));
 			
 		
 			this.ventanaAltaTipo=ventanaAltaTipoContacto.getInstance();
 			this.ventanaAltaTipo.getBtnAgregarNuevoTipo().addActionListener(a->agregarNuevoTipoContacto(a));
+			
+			this.ventanaBajaTipo=ventanaBajaTipoContacto.getInstance();
+			this.ventanaBajaTipo.getBtnBorrarTipo().addActionListener(b->borrarTipoContacto(b));
 			
 			this.ventanaEditarPersona=VentanaEditarPersona.getInstance();
 			this.ventanaEditarPersona.getBtnAplicarCambios().addActionListener(e->aplicarCambiosPersona(e));
@@ -61,6 +70,10 @@ public class Controlador implements ActionListener
 		
 		private void ventanaAltaTipoContacto(ActionEvent a) {
 			this.ventanaAltaTipo.mostrarVentana();
+		}
+		
+		private void ventanaBajaTipoContacto(ActionEvent e) {
+			this.ventanaBajaTipo.mostrarVentana();
 		}
 			
 		private void ventanaModificarPersona(ActionEvent m) {
@@ -126,9 +139,21 @@ public class Controlador implements ActionListener
 			tipoNuevo.setIdTipoContacto(0);
 			tipoNuevo.setTipo(tipo);
 			tipoNuevo.insertToMySQL(tipoNuevo);
+			
 			this.refrescarTabla();
-			this.ventanaPersona.recargarTiposContacto();
+			this.refrescarTiposContacto();
 			this.ventanaAltaTipo.cerrar();
+		}
+		
+		private void borrarTipoContacto(ActionEvent b) {
+			tipoContacto tc= new tipoContacto();
+			tiposDeContacto= tc.mostrarTiposContacto();
+			int indice=this.ventanaBajaTipo.getCbxBajaTipo().getSelectedIndex();
+			tc.deleteFromMySQL(tiposDeContacto.get(indice));
+			
+			this.refrescarTabla();
+			this.refrescarTiposContacto();
+			this.ventanaBajaTipo.cerrar();
 		}
 
 		private void mostrarReporte(ActionEvent r) {
@@ -156,6 +181,16 @@ public class Controlador implements ActionListener
 		{
 			this.personasEnTabla = agenda.obtenerPersonas();
 			this.vista.llenarTabla(this.personasEnTabla);
+		}
+		
+		private void refrescarTiposContacto(){
+			
+			tipoContacto tc= new tipoContacto();
+			DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
+			this.ventanaPersona.getTxtTipo().setModel(modeloTiposContacto);
+			this.ventanaBajaTipo.getCbxBajaTipo().setModel(modeloTiposContacto);
+			this.ventanaEditarPersona.getTxtTipo().setModel(modeloTiposContacto);
+			
 		}
 
 		@Override

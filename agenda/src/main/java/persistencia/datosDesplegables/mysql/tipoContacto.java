@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+
+import dto.PersonaDTO;
 import persistencia.conexion.Conexion;
 
 public class tipoContacto {
@@ -56,7 +58,30 @@ public class tipoContacto {
 				e1.printStackTrace();
 			}
 		} return isInsertExitoso;
-	}		
+	}
+	
+	public boolean deleteFromMySQL(tipoContacto tipo_a_borrar)
+	{
+		String sql= "DELETE FROM tipocontacto WHERE idTipoContacto=?";
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isdeleteExitoso = false;
+		try 
+		{
+			statement = conexion.prepareStatement(sql);
+			statement.setString(1, Integer.toString(tipo_a_borrar.getIdTipoContacto()));
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isdeleteExitoso = true;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return isdeleteExitoso;
+	}
 	
 	public Vector<tipoContacto> mostrarTiposContacto(){
 		PreparedStatement statement;
