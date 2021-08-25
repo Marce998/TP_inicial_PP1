@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import persistencia.datosDesplegables.mysql.tipoContacto;
 
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -169,10 +172,14 @@ public class VentanaEditarPersona extends JFrame
 		panel.add(txtDepto);
 		txtDepto.setColumns(10);
 		
-		String[] tipos = {"Familia","Amigo","Trabajo"};
-		txtTipo = new JComboBox(tipos);
+		
+		txtTipo = new JComboBox();
 		txtTipo.setBounds(132, 153, 165, 22);
 		panel.add(txtTipo);
+		
+		tipoContacto tc= new tipoContacto();
+		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
+		txtTipo.setModel(modeloTiposContacto);
 				
 		paises = new ArrayList<String>();
 		provincias = new ArrayList<String>();
