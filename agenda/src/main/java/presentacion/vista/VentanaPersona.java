@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,7 +21,8 @@ import javax.swing.JComboBox;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import persistencia.datosDesplegables.mysql.tipoContacto;
 
 
 public class VentanaPersona extends JFrame 
@@ -63,14 +65,14 @@ public class VentanaPersona extends JFrame
 		super();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 346, 600);
+		setBounds(100, 100, 454, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 600);
+		panel.setBounds(10, 11, 418, 600);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -171,10 +173,14 @@ public class VentanaPersona extends JFrame
 		panel.add(txtDepto);
 		txtDepto.setColumns(10);
 		
-		String[] tipos = {"Familia","Amigo","Trabajo"};
-		txtTipo = new JComboBox(tipos);
+		
+		txtTipo = new JComboBox();
 		txtTipo.setBounds(132, 153, 165, 22);
 		panel.add(txtTipo);
+		
+		tipoContacto tc= new tipoContacto();
+		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
+		txtTipo.setModel(modeloTiposContacto);
 				
 		//LEER PAISES,PROVINCIAS Y LOCALIDADES
 		
@@ -241,6 +247,8 @@ public class VentanaPersona extends JFrame
 		btnAgregarPersona = new JButton("Agregar");
 		btnAgregarPersona.setBounds(208, 480, 89, 23);
 		panel.add(btnAgregarPersona);
+		
+		
 				
 		this.setVisible(false);
 	}
@@ -305,6 +313,13 @@ public class VentanaPersona extends JFrame
 	{
 		return btnAgregarPersona;
 	}
+	
+	public void recargarTiposContacto() {
+		tipoContacto tc= new tipoContacto();
+		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
+		txtTipo.setModel(modeloTiposContacto);
+	}
+	
 	
 	public void cargarLocalidades(int numPais,int numProvincia){
 		paises.clear();
