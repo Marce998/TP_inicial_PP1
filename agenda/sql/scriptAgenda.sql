@@ -15,3 +15,14 @@ CREATE TABLE `personas`
   `Localidad` varchar(30) NOT NULL,
   PRIMARY KEY (`idPersona`)
 );
+
+CREATE TABLE `tipoContacto`
+(
+`idTipoContacto` int(11) NOT NULL AUTO_INCREMENT,
+`tipo` varchar(45) NOT NULL,
+PRIMARY KEY (`idTipoContacto`)
+);
+
+INSERT INTO tipocontacto VALUES(1,"Amigo");
+INSERT INTO tipocontacto VALUES (2,"Trabajo");
+INSERT INTO tipocontacto VALUES (3,"Familia");

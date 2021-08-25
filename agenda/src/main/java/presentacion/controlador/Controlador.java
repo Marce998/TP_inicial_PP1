@@ -6,10 +6,13 @@ import java.sql.Date;
 import java.util.List;
 
 import modelo.Agenda;
+import persistencia.datosDesplegables.mysql.tipoContacto;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
+import presentacion.vista.ventanaABMtipoContacto;
+import presentacion.vista.ventanaAltaTipoContacto;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener
@@ -18,6 +21,8 @@ public class Controlador implements ActionListener
 		private List<PersonaDTO> personasEnTabla;
 		private VentanaPersona ventanaPersona;
 		private VentanaEditarPersona ventanaEditarPersona;
+		private ventanaABMtipoContacto ventanaABMtipo;
+		private ventanaAltaTipoContacto ventanaAltaTipo;
 		private Agenda agenda;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -27,17 +32,37 @@ public class Controlador implements ActionListener
 			this.vista.getBtnBorrar().addActionListener(s->borrarPersona(s));
 			this.vista.getBtnReporte().addActionListener(r->mostrarReporte(r));
 			this.vista.getBtnEditar().addActionListener(m->ventanaModificarPersona(m));
+			this.vista.getBtnABMtipoContacto().addActionListener(abmTipo->mostrarVentanaABMtipo(abmTipo));
+			
 			this.ventanaPersona = VentanaPersona.getInstance();
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p->guardarPersona(p));
+			
+			this.ventanaABMtipo=ventanaABMtipoContacto.getInstance();
+			this.ventanaABMtipo.getBtnAgregarTipo().addActionListener(a->ventanaAltaTipoContacto(a));
+			
+		
+			this.ventanaAltaTipo=ventanaAltaTipoContacto.getInstance();
+			this.ventanaAltaTipo.getBtnAgregarNuevoTipo().addActionListener(a->agregarNuevoTipoContacto(a));
+			
 			this.ventanaEditarPersona=VentanaEditarPersona.getInstance();
 			this.ventanaEditarPersona.getBtnAplicarCambios().addActionListener(e->aplicarCambiosPersona(e));
+			
 			this.agenda = agenda;	
 		}
 		
+
 		private void ventanaAgregarPersona(ActionEvent a) {
 			this.ventanaPersona.mostrarVentana();
 		}
 		
+		private void mostrarVentanaABMtipo(ActionEvent abmTipo) {
+			this.ventanaABMtipo.mostrarVentana();
+		}
+		
+		private void ventanaAltaTipoContacto(ActionEvent a) {
+			this.ventanaAltaTipo.mostrarVentana();
+		}
+			
 		private void ventanaModificarPersona(ActionEvent m) {
 			this.ventanaEditarPersona.mostrarVentana();
 			
@@ -93,6 +118,17 @@ public class Controlador implements ActionListener
 			this.refrescarTabla();
 			
 			this.ventanaEditarPersona.cerrar();
+		}
+		
+		private void agregarNuevoTipoContacto(ActionEvent a) {
+			String tipo= ventanaAltaTipo.getTxtNuevoTipo().getText();
+			tipoContacto tipoNuevo= new tipoContacto();
+			tipoNuevo.setIdTipoContacto(0);
+			tipoNuevo.setTipo(tipo);
+			tipoNuevo.insertToMySQL(tipoNuevo);
+			this.refrescarTabla();
+			this.ventanaPersona.recargarTiposContacto();
+			this.ventanaAltaTipo.cerrar();
 		}
 
 		private void mostrarReporte(ActionEvent r) {
