@@ -14,24 +14,6 @@ public class tipoContacto {
 	private String tipo;
 	
 	
-	public int getIdTipoContacto() {
-		return idTipoContacto;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	
-	public void setIdTipoContacto(int idTipoContacto) {
-		this.idTipoContacto = idTipoContacto;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-	
-	public String toString() {
-		return this.tipo;
-	}
-	
 	public boolean insertToMySQL(tipoContacto tipo) {
 		String sql= "INSERT INTO tipocontacto(idTipoContacto,tipo) VALUES (?,?)";
 		PreparedStatement statement;
@@ -83,6 +65,38 @@ public class tipoContacto {
 		return isdeleteExitoso;
 	}
 	
+	public boolean updateToMySQL(tipoContacto tipo_a_actualizar) {
+		String sql= "UPDATE tipocontacto SET tipo=? where idTipoContacto=?";
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso = false;
+		try
+		{
+			statement = conexion.prepareStatement(sql);
+			statement.setString(1, tipo_a_actualizar.getTipo());
+			statement.setInt(2, tipo_a_actualizar.getIdTipoContacto()); 
+			
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isUpdateExitoso;
+		
+	}
+	
+	
 	public Vector<tipoContacto> mostrarTiposContacto(){
 		PreparedStatement statement;
 		ResultSet resultSet; //Guarda el resultado de la query
@@ -110,6 +124,24 @@ public class tipoContacto {
 		}
 		return tipos;
 		
+	}
+	
+	public int getIdTipoContacto() {
+		return idTipoContacto;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setIdTipoContacto(int idTipoContacto) {
+		this.idTipoContacto = idTipoContacto;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	public String toString() {
+		return this.tipo;
 	}
 	
 	

@@ -90,7 +90,7 @@ public class Vista
 		panel.add(btnReporte);
 		
 		btnABMtipoContacto = new JButton("ABM tipo contacto");
-		btnABMtipoContacto.setBounds(450, 228, 127, 23);
+		btnABMtipoContacto.setBounds(450, 228, 151, 23);
 		panel.add(btnABMtipoContacto);
 	}
 	
