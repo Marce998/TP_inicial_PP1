@@ -98,11 +98,20 @@ public class Controlador implements ActionListener
 				
 				int filaSeleccionada = this.vista.getTablaPersonas().getSelectedRow();
 				
+				// para que la ventana ya tenga seleccionado el tipo de contacto que tiene la persona 
+				tipoContacto tc= new tipoContacto();
+				tiposDeContacto= tc.mostrarTiposContacto();
+				int indice=0;
+				while(!tiposDeContacto.get(indice).getTipo().equals(this.personasEnTabla.get(filaSeleccionada).getTipo())) {
+					indice++;
+				}
+				
+				// setea los campos para que aparezcan cargados de acuerdo a los datos de la persona
 				this.ventanaEditarPersona.getTxtNombre().setText(this.personasEnTabla.get(filaSeleccionada).getNombre());
 				this.ventanaEditarPersona.getTxtTelefono().setText(this.personasEnTabla.get(filaSeleccionada).getTelefono());
 				this.ventanaEditarPersona.getTxtEmail().setText(this.personasEnTabla.get(filaSeleccionada).getEmail());
 				this.ventanaEditarPersona.getTxtFechaNac().setText(this.personasEnTabla.get(filaSeleccionada).getFechaNac().toString());
-				this.ventanaEditarPersona.getTxtTipo().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getTipo());
+				this.ventanaEditarPersona.getTxtTipo().setSelectedIndex(indice);
 				this.ventanaEditarPersona.getTxtPais().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getPais());
 				this.ventanaEditarPersona.getTxtProvincia().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getProvincia());
 				this.ventanaEditarPersona.getTxtLocalidad().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getLocalidad());
