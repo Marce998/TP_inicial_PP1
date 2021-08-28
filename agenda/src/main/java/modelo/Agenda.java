@@ -34,4 +34,8 @@ public class Agenda
 		return this.persona.readAll();		
 	}
 	
+	public List<PersonaDTO> obtenerPersonasPorTipo(){
+		return this.persona.readAllOrderByTipo();
+	}
+	
 }
