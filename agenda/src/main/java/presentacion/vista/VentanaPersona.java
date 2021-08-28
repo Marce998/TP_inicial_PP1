@@ -56,6 +56,9 @@ public class VentanaPersona extends JFrame
 	private ArrayList<String> localidades = new ArrayList<String>();
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
+	private JComboBox txtPaisPref;
+	private JComboBox txtProvinciaPref;
+	private JComboBox txtLocalidadPref;
 	
 	public static VentanaPersona getInstance()
 	{
@@ -73,14 +76,14 @@ public class VentanaPersona extends JFrame
 		super();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 454, 600);
+		setBounds(100, 100, 454, 678);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 418, 600);
+		panel.setBounds(10, 11, 418, 617);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -126,20 +129,36 @@ public class VentanaPersona extends JFrame
 		panel.add(depto);
 		
 		JLabel pais = new JLabel("País");
-		pais.setBounds(10, 360, 50, 14);
+		pais.setBounds(20, 360, 50, 14);
 		panel.add(pais);
 		
 		JLabel provincia = new JLabel("Provincia");
-		provincia.setBounds(10, 400, 50, 14);
+		provincia.setBounds(20, 400, 50, 14);
 		panel.add(provincia);
 		
 		JLabel localidad = new JLabel("Localidad");
-		localidad.setBounds(10, 440, 50, 14);
+		localidad.setBounds(20, 440, 50, 14);
 		panel.add(localidad);
 		
 		JLabel tipo = new JLabel("Tipo");
 		tipo.setBounds(10, 157, 50, 14);
 		panel.add(tipo);
+		
+		JLabel ciudadPreferida= new JLabel("Ciudad Preferida:");
+		ciudadPreferida.setBounds(10, 482, 100, 14);
+		panel.add(ciudadPreferida);
+		
+		JLabel paisPreferido= new JLabel("Pa\u00EDs");
+		paisPreferido.setBounds(20, 507, 46, 14);
+		panel.add(paisPreferido);
+		
+		JLabel provinciaPreferida= new JLabel("Provincia");
+		provinciaPreferida.setBounds(20, 536, 46, 14);
+		panel.add(provinciaPreferida);
+		
+		JLabel localidadPreferida= new JLabel("Localidad");
+		localidadPreferida.setBounds(20, 565, 46, 14);
+		panel.add(localidadPreferida);
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(133, 8, 164, 20);
@@ -200,7 +219,7 @@ public class VentanaPersona extends JFrame
 				txtLocalidad.removeAllItems();
 			}
 		});
-		txtPais.setBounds(132, 360, 162, 22);		
+		txtPais.setBounds(135, 356, 162, 22);		
 				
 		Pais paises = new Pais();
 		DefaultComboBoxModel modeloPaises = new DefaultComboBoxModel(paises.mostrarPaises());
@@ -216,16 +235,46 @@ public class VentanaPersona extends JFrame
 				txtLocalidad.setModel(modeloLocalidad);
 			}
 		});
-		txtProvincia.setBounds(132, 400, 162, 22);
+		txtProvincia.setBounds(135, 396, 162, 22);
 		panel.add(txtProvincia);
 					
 		txtLocalidad = new JComboBox(localidades.toArray());
-		txtLocalidad.setBounds(132, 440, 162, 22);
+		txtLocalidad.setBounds(135, 436, 162, 22);
 		panel.add(txtLocalidad);
 		
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(208, 480, 89, 23);
-		panel.add(btnAgregarPersona);
+		btnAgregarPersona.setBounds(208, 594, 89, 23);
+		panel.add(btnAgregarPersona);	
+		
+		txtPaisPref = new JComboBox();
+		txtPaisPref.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Pais pais = (Pais) txtPaisPref.getSelectedItem();
+				Provincia provincia = new Provincia();
+				DefaultComboBoxModel modeloProvincia = new DefaultComboBoxModel(provincia.mostrarProvincias(pais.getIdPais())); 
+				txtProvinciaPref.setModel(modeloProvincia);
+				txtLocalidadPref.removeAllItems();
+			}
+		});
+		txtPaisPref.setBounds(133, 503, 164, 22);
+		txtPaisPref.setModel(modeloPaises);
+		panel.add(txtPaisPref);
+		
+		txtProvinciaPref= new JComboBox();
+		txtProvinciaPref.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Provincia provincia = (Provincia) txtProvinciaPref.getSelectedItem();
+				Localidad localidad = new Localidad();
+				DefaultComboBoxModel modeloLocalidad = new DefaultComboBoxModel(localidad.mostrarLocalidades(provincia.getIdProvincia())); 
+				txtLocalidadPref.setModel(modeloLocalidad);
+			}
+		});
+		txtProvinciaPref.setBounds(133, 532, 164, 22);
+		panel.add(txtProvinciaPref);
+		
+		txtLocalidadPref= new JComboBox();
+		txtLocalidadPref.setBounds(133, 561, 164, 22);
+		panel.add(txtLocalidadPref);
 						
 		this.setVisible(false);
 	}
