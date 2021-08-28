@@ -20,6 +20,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import persistencia.datosDesplegables.mysql.tipoContacto;
+import persistencia.datosDesplegables.mysql.Localidad;
+import persistencia.datosDesplegables.mysql.Pais;
+import persistencia.datosDesplegables.mysql.Provincia;
+import persistencia.datosDesplegables.mysql.tipoContacto;
 
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -171,8 +175,7 @@ public class VentanaEditarPersona extends JFrame
 		txtDepto.setBounds(133, 320, 164, 20);
 		panel.add(txtDepto);
 		txtDepto.setColumns(10);
-		
-		
+			
 		txtTipo = new JComboBox();
 		txtTipo.setBounds(132, 153, 165, 22);
 		panel.add(txtTipo);
@@ -181,62 +184,35 @@ public class VentanaEditarPersona extends JFrame
 		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
 		txtTipo.setModel(modeloTiposContacto);
 				
-		paises = new ArrayList<String>();
-		provincias = new ArrayList<String>();
-		localidades = new ArrayList<String>();
-		int numPais = 0;
-		int numProvincia = 0;
-		
-		cargarLocalidades(numPais,numProvincia);
-		
-		
+		txtPais = new JComboBox(paises.toArray());
+		txtPais.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Pais pais = (Pais) txtPais.getSelectedItem();
+				Provincia provincia = new Provincia();
+				DefaultComboBoxModel modeloProvincia = new DefaultComboBoxModel(provincia.mostrarProvincias(pais.getIdPais())); 
+				txtProvincia.setModel(modeloProvincia);
+				txtLocalidad.removeAllItems();
+			}
+		});
+		txtPais.setBounds(132, 360, 162, 22);		
+				
+		Pais paises = new Pais();
+		DefaultComboBoxModel modeloPaises = new DefaultComboBoxModel(paises.mostrarPaises());
+		txtPais.setModel(modeloPaises);
+		panel.add(txtPais);
 			
-		/////////////////////////////
-		
 		txtProvincia = new JComboBox(provincias.toArray());
+		txtProvincia.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Provincia provincia = (Provincia) txtProvincia.getSelectedItem();
+				Localidad localidad = new Localidad();
+				DefaultComboBoxModel modeloLocalidad = new DefaultComboBoxModel(localidad.mostrarLocalidades(provincia.getIdProvincia())); 
+				txtLocalidad.setModel(modeloLocalidad);
+			}
+		});
 		txtProvincia.setBounds(132, 400, 162, 22);
 		panel.add(txtProvincia);
-		
-		ItemListener provinciaListener = new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				int numPais = txtPais.getSelectedIndex();
-				int numProvincia = txtProvincia.getSelectedIndex();
-				txtLocalidad.removeAllItems();
-				cargarLocalidades(numPais,numProvincia);
-				for(String localidad : localidades) {
-					txtLocalidad.addItem(localidad);
-				}
-			}
-		};
-		
-		txtProvincia.addItemListener(provinciaListener);
-		
-		txtPais = new JComboBox(paises.toArray());
-		txtPais.setBounds(132, 360, 162, 22);
-		panel.add(txtPais);
-		
-		ItemListener paisListener = new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				int numPais = txtPais.getSelectedIndex();
-				txtProvincia.removeItemListener(provinciaListener);
-				txtProvincia.removeAllItems();				
-				txtLocalidad.removeAllItems();
-				int numProvincia = 0;
-				cargarLocalidades(numPais,numProvincia);
-				for(String provincia : provincias) {
-					txtProvincia.addItem(provincia);
-				}
-				txtProvincia.addItemListener(provinciaListener);
-				for(String localidad : localidades) {
-					txtLocalidad.addItem(localidad);
-				}
-			}
-		};
-		
-		txtPais.addItemListener(paisListener);
-		
-		
-		
+					
 		txtLocalidad = new JComboBox(localidades.toArray());
 		txtLocalidad.setBounds(132, 440, 162, 22);
 		panel.add(txtLocalidad);
@@ -303,60 +279,11 @@ public class VentanaEditarPersona extends JFrame
 		return txtProvincia;
 	}
 	
-
-
 	public JButton getBtnAplicarCambios() 
 	{
 		return btnAplicarCambios;
 	}
 	
-	public void cargarLocalidades(int numPais,int numProvincia){
-		paises.clear();
-		provincias.clear();
-		localidades.clear();
-		
-		JSONParser jsonParser = new JSONParser();
-		try(FileReader reader = new FileReader("src/main/resources/localidad.json")){
-			Object obj = jsonParser.parse(reader);
-			
-			JSONArray localidadesObj =  (JSONArray) obj;
-			
-			//Cargar paises
-			for(int i=0;i<localidadesObj.size();i++) {
-				JSONObject paisObject = (JSONObject) localidadesObj.get(i);
-				paises.add(paisObject.get("nombre").toString());
-								
-			}
-			
-			JSONObject paisObject = (JSONObject) localidadesObj.get(numPais);
-			JSONArray provinciasArr = (JSONArray) paisObject.get("provincias");
-			
-			for(int i=0;i<provinciasArr.size();i++) {
-				JSONObject provinciasObject = (JSONObject) provinciasArr.get(i);
-				provincias.add(provinciasObject.get("nombre").toString());
-				
-			}
-			
-			JSONObject provinciasObject = (JSONObject) provinciasArr.get(numProvincia);
-			JSONArray localidadesArr = (JSONArray) provinciasObject.get("localidades");
-			
-			for(int i=0;i<localidadesArr.size();i++) {
-				JSONObject localidadesObject = (JSONObject) localidadesArr.get(i);
-				localidades.add(localidadesObject.get("nombre").toString());
-				
-			}
-				
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-
 	public void cerrar()
 	{
 		this.txtNombre.setText(null);

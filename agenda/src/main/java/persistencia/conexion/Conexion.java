@@ -11,18 +11,18 @@ public class Conexion
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);	
 	
-	private Conexion()
+	public Conexion()
 	{
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
 			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda?useSSL=false","root","root");
 			this.connection.setAutoCommit(false);
-			log.info("ConexiÃ³n exitosa");
+			log.info("Conexión exitosa");
 		}
 		catch(Exception e)
 		{
-			log.error("ConexiÃ³n fallida", e);
+			log.error("Conexión fallida", e);
 		}
 	}
 	
@@ -50,7 +50,7 @@ public class Conexion
 		}
 		catch (SQLException e) 
 		{
-			log.error("Error al cerrar la conexiÃ³n!", e);
+			log.error("Error al cerrar la conexión!", e);
 		}
 		instancia = null;
 	}
