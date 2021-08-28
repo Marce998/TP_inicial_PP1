@@ -16,6 +16,7 @@ public class PersonaDAOSQL implements PersonaDAO
 	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,tipo,domicilio,pais,provincia,localidad) VALUES(?, ?, ?,?,?,?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
+	private static final String orderByTipo = "SELECT * FROM personas ORDER BY tipo";
 	private static final String update = "UPDATE personas SET nombre=?,telefono=?,email=?,fechaNac=?,domicilio=?,tipo=?,pais=?,provincia=?,localidad=? WHERE idPersona=?";
 		
 	public boolean insert(PersonaDTO persona)
@@ -124,6 +125,28 @@ public class PersonaDAOSQL implements PersonaDAO
 		try 
 		{
 			statement = conexion.getSQLConexion().prepareStatement(readall);
+			resultSet = statement.executeQuery();
+			while(resultSet.next())
+			{
+				personas.add(getPersonaDTO(resultSet));
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return personas;
+	}
+	
+	public List<PersonaDTO> readAllOrderByTipo()
+	{
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(orderByTipo);
 			resultSet = statement.executeQuery();
 			while(resultSet.next())
 			{
