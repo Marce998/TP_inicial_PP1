@@ -11,7 +11,7 @@ public class Conexion
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);	
 	
-	private Conexion()
+	public Conexion()
 	{
 		try
 		{

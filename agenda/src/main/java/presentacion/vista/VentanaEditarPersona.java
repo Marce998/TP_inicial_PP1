@@ -19,6 +19,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import persistencia.datosDesplegables.mysql.Localidad;
+import persistencia.datosDesplegables.mysql.Pais;
+import persistencia.datosDesplegables.mysql.Provincia;
 import persistencia.datosDesplegables.mysql.tipoContacto;
 
 import javax.swing.SwingConstants;
@@ -180,66 +183,40 @@ public class VentanaEditarPersona extends JFrame
 		tipoContacto tc= new tipoContacto();
 		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
 		txtTipo.setModel(modeloTiposContacto);
-				
-		paises = new ArrayList<String>();
-		provincias = new ArrayList<String>();
-		localidades = new ArrayList<String>();
-		int numPais = 0;
-		int numProvincia = 0;
-		
-		cargarLocalidades(numPais,numProvincia);
-		
-		
-			
-		/////////////////////////////
-		
-		txtProvincia = new JComboBox(provincias.toArray());
-		txtProvincia.setBounds(132, 400, 162, 22);
-		panel.add(txtProvincia);
-		
-		ItemListener provinciaListener = new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				int numPais = txtPais.getSelectedIndex();
-				int numProvincia = txtProvincia.getSelectedIndex();
-				txtLocalidad.removeAllItems();
-				cargarLocalidades(numPais,numProvincia);
-				for(String localidad : localidades) {
-					txtLocalidad.addItem(localidad);
-				}
-			}
-		};
-		
-		txtProvincia.addItemListener(provinciaListener);
 		
 		txtPais = new JComboBox(paises.toArray());
-		txtPais.setBounds(132, 360, 162, 22);
-		panel.add(txtPais);
-		
-		ItemListener paisListener = new ItemListener() {
+		txtPais.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				int numPais = txtPais.getSelectedIndex();
-				txtProvincia.removeItemListener(provinciaListener);
-				txtProvincia.removeAllItems();				
+				Pais pais = (Pais) txtPais.getSelectedItem();
+				Provincia provincia = new Provincia();
+				DefaultComboBoxModel modeloProvincia = new DefaultComboBoxModel(provincia.mostrarProvincias(pais.getIdPais())); 
+				txtProvincia.setModel(modeloProvincia);
 				txtLocalidad.removeAllItems();
-				int numProvincia = 0;
-				cargarLocalidades(numPais,numProvincia);
-				for(String provincia : provincias) {
-					txtProvincia.addItem(provincia);
-				}
-				txtProvincia.addItemListener(provinciaListener);
-				for(String localidad : localidades) {
-					txtLocalidad.addItem(localidad);
-				}
 			}
-		};
-		
-		txtPais.addItemListener(paisListener);
-		
-		
-		
+		});
+		txtPais.setBounds(132, 360, 162, 22);		
+				
+		Pais paises = new Pais();
+		DefaultComboBoxModel modeloPaises = new DefaultComboBoxModel(paises.mostrarPaises());
+		txtPais.setModel(modeloPaises);
+		panel.add(txtPais);
+			
+		txtProvincia = new JComboBox(provincias.toArray());
+		txtProvincia.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Provincia provincia = (Provincia) txtProvincia.getSelectedItem();
+				Localidad localidad = new Localidad();
+				DefaultComboBoxModel modeloLocalidad = new DefaultComboBoxModel(localidad.mostrarLocalidades(provincia.getIdProvincia())); 
+				txtLocalidad.setModel(modeloLocalidad);
+			}
+		});
+		txtProvincia.setBounds(132, 400, 162, 22);
+		panel.add(txtProvincia);
+					
 		txtLocalidad = new JComboBox(localidades.toArray());
 		txtLocalidad.setBounds(132, 440, 162, 22);
 		panel.add(txtLocalidad);
+		
 				
 		btnAplicarCambios = new JButton("Aplicar cambios");
 		btnAplicarCambios.setBounds(171, 480, 126, 23);

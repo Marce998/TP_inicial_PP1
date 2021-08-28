@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 public class ventanaAltaTipoContacto extends JFrame{
-
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -30,8 +29,6 @@ public class ventanaAltaTipoContacto extends JFrame{
 		else
 			return INSTANCE;
 	}
-
-	
 	
 	public ventanaAltaTipoContacto() {
 		
@@ -71,18 +68,14 @@ public class ventanaAltaTipoContacto extends JFrame{
 		this.setVisible(true);
 	}
 
-
 	public JTextField getTxtNuevoTipo() {
 		return txtNuevoTipo;
 	}
 
-
-
 	public JButton getBtnAgregarNuevoTipo() {
 		return btnAgregarNuevoTipo;
 	}
-
-
+	
 	public void cerrar() {
 		this.txtNuevoTipo.setText(null);
 		this.dispose();
