@@ -257,7 +257,9 @@ public class VentanaPersona extends JFrame
 			}
 		});
 		txtPaisPref.setBounds(133, 503, 164, 22);
-		txtPaisPref.setModel(modeloPaises);
+		Pais paisesPref = new Pais();
+		DefaultComboBoxModel modeloPaisesPref = new DefaultComboBoxModel(paisesPref.mostrarPaises());
+		txtPaisPref.setModel(modeloPaisesPref);
 		panel.add(txtPaisPref);
 		
 		txtProvinciaPref= new JComboBox();
@@ -333,6 +335,20 @@ public class VentanaPersona extends JFrame
 	public JComboBox getTxtLocalidad() {
 		return txtLocalidad;
 	}
+	
+	public JComboBox getTxtPaisPref() {
+		return txtPaisPref;
+	}
+	
+	public JComboBox getTxtProvinciaPref() {
+		return txtProvinciaPref;
+	}
+	
+	public JComboBox getTxtLocalidadPref() {
+		return txtLocalidadPref;
+	}
+	
+	
 	
 	public JButton getBtnAgregarPersona() 
 	{
