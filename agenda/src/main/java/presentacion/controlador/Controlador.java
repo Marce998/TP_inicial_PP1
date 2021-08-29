@@ -221,7 +221,10 @@ public class Controlador implements ActionListener
 			String pais = ventanaPersona.getTxtPais().getSelectedItem().toString();
 			String provincia = ventanaPersona.getTxtProvincia().getSelectedItem().toString();
 			String localidad = ventanaPersona.getTxtLocalidad().getSelectedItem().toString();
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad);
+			String ciudadPref = ventanaPersona.getTxtPaisPref().getSelectedItem().toString() + ", "
+					+ ventanaPersona.getTxtProvinciaPref().getSelectedItem().toString() + ", " 
+					+ ventanaPersona.getTxtLocalidadPref().getSelectedItem().toString();
+			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad,ciudadPref);
 			this.agenda.agregarPersona(nuevaPersona);
 			this.refrescarTabla();
 			this.ventanaPersona.cerrar();
