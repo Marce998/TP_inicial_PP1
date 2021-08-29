@@ -28,7 +28,7 @@ public class Vista
 	private JButton btnABMtipoContacto;
 	private JButton btnABMLocalidades;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento","Domicilio","Tipo","Pais","Provincia","Localidad"};
+	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha de Nacimiento","Domicilio","Tipo","Pais","Provincia","Localidad","Ciudad Preferida"};
 
 	public Vista() 
 	{
@@ -40,17 +40,17 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1015, 301);
+		frame.setBounds(100, 100, 1150, 301);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 989, 262);
+		panel.setBounds(0, 0, 1124, 262);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(10, 11, 979, 182);
+		spPersonas.setBounds(10, 11, 1104, 182);
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
@@ -180,7 +180,8 @@ public class Vista
 			String pais = p.getPais();
 			String provincia = p.getProvincia();
 			String localidad = p.getLocalidad();
-			Object[] fila = {nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad};
+			String ciudadPref = p.getCiudadPref();
+			Object[] fila = {nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad,ciudadPref};
 			this.getModelPersonas().addRow(fila);
 		}
 		
