@@ -76,7 +76,7 @@ public class ventanaBajaTipoContacto extends JFrame{
 		cbxBajaTipo.setModel(modeloTiposContacto);
 		
 		btnBorrarTipo = new JButton("Borrar tipo");
-		btnBorrarTipo.setBounds(169, 168, 89, 23);
+		btnBorrarTipo.setBounds(165, 168, 101, 23);
 		panel.add(btnBorrarTipo);
 		
 		this.setVisible(false);
