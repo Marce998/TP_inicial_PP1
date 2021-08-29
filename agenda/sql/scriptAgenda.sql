@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `agenda`;
 USE agenda;
-DROP TABLE IF EXISTS `personas`
+DROP TABLE IF EXISTS `personas`;
 CREATE TABLE `personas`
 (
   `idPersona` int(11) NOT NULL AUTO_INCREMENT,
@@ -17,9 +17,9 @@ CREATE TABLE `personas`
   PRIMARY KEY (`idPersona`)
 );
 
-DROP TABLE IF EXISTS `tipoContacto`;
+DROP TABLE IF EXISTS `tipocontacto`;
 
-CREATE TABLE `tipoContacto`
+CREATE TABLE `tipocontacto`
 (
 `idTipoContacto` int(11) NOT NULL AUTO_INCREMENT,
 `tipo` varchar(45) NOT NULL,
