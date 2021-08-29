@@ -13,11 +13,11 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,tipo,domicilio,pais,provincia,localidad) VALUES(?, ?, ?,?,?,?,?,?,?,?)";
+	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono,email,fechaNac,tipo,domicilio,pais,provincia,localidad,ciudadPreferida) VALUES(?, ?, ?,?,?,?,?,?,?,?,?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
 	private static final String orderByTipo = "SELECT * FROM personas ORDER BY tipo";
-	private static final String update = "UPDATE personas SET nombre=?,telefono=?,email=?,fechaNac=?,domicilio=?,tipo=?,pais=?,provincia=?,localidad=? WHERE idPersona=?";
+	private static final String update = "UPDATE personas SET nombre=?,telefono=?,email=?,fechaNac=?,domicilio=?,tipo=?,pais=?,provincia=?,localidad=?,ciudadPref=? WHERE idPersona=?";
 		
 	public boolean insert(PersonaDTO persona)
 	{
@@ -37,6 +37,7 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(8, persona.getPais());
 			statement.setString(9, persona.getProvincia());
 			statement.setString(10, persona.getLocalidad());
+			statement.setString(11, persona.getCiudadPref());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -94,7 +95,8 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(7, persona_a_actualizar.getPais());
 			statement.setString(8, persona_a_actualizar.getProvincia());
 			statement.setString(9, persona_a_actualizar.getLocalidad());
-			statement.setInt(10, persona_a_actualizar.getIdPersona());
+			statement.setString(10, persona_a_actualizar.getCiudadPref());
+			statement.setInt(11, persona_a_actualizar.getIdPersona());
 			
 			if(statement.executeUpdate() > 0)
 			{
@@ -172,6 +174,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		String pais = resultSet.getString("Pais");
 		String provincia = resultSet.getString("Provincia");
 		String localidad = resultSet.getString("Localidad");
-		return new PersonaDTO(id, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad);
+		String ciudadPref = resultSet.getString("ciudadPreferida");
+		return new PersonaDTO(id, nombre, tel,email,fechaNac,domicilio,tipo,pais,provincia,localidad,ciudadPref);
 	}
 }

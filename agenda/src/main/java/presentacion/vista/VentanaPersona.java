@@ -5,6 +5,11 @@ import java.awt.event.ItemListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -15,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
@@ -22,6 +28,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import persistencia.conexion.Conexion;
+import persistencia.datosDesplegables.mysql.Localidad;
+import persistencia.datosDesplegables.mysql.Pais;
+import persistencia.datosDesplegables.mysql.Provincia;
 import persistencia.datosDesplegables.mysql.tipoContacto;
 
 
@@ -46,8 +56,9 @@ public class VentanaPersona extends JFrame
 	private ArrayList<String> localidades = new ArrayList<String>();
 	private JButton btnAgregarPersona;
 	private static VentanaPersona INSTANCE;
-	
-	
+	private JComboBox txtPaisPref;
+	private JComboBox txtProvinciaPref;
+	private JComboBox txtLocalidadPref;
 	
 	public static VentanaPersona getInstance()
 	{
@@ -65,14 +76,14 @@ public class VentanaPersona extends JFrame
 		super();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 454, 600);
+		setBounds(100, 100, 454, 678);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 418, 600);
+		panel.setBounds(10, 11, 418, 617);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -118,20 +129,36 @@ public class VentanaPersona extends JFrame
 		panel.add(depto);
 		
 		JLabel pais = new JLabel("País");
-		pais.setBounds(10, 360, 50, 14);
+		pais.setBounds(20, 360, 50, 14);
 		panel.add(pais);
 		
 		JLabel provincia = new JLabel("Provincia");
-		provincia.setBounds(10, 400, 50, 14);
+		provincia.setBounds(20, 400, 50, 14);
 		panel.add(provincia);
 		
 		JLabel localidad = new JLabel("Localidad");
-		localidad.setBounds(10, 440, 50, 14);
+		localidad.setBounds(20, 440, 50, 14);
 		panel.add(localidad);
 		
 		JLabel tipo = new JLabel("Tipo");
 		tipo.setBounds(10, 157, 50, 14);
 		panel.add(tipo);
+		
+		JLabel ciudadPreferida= new JLabel("Ciudad Preferida:");
+		ciudadPreferida.setBounds(10, 482, 100, 14);
+		panel.add(ciudadPreferida);
+		
+		JLabel paisPreferido= new JLabel("Pa\u00EDs");
+		paisPreferido.setBounds(20, 507, 46, 14);
+		panel.add(paisPreferido);
+		
+		JLabel provinciaPreferida= new JLabel("Provincia");
+		provinciaPreferida.setBounds(20, 536, 46, 14);
+		panel.add(provinciaPreferida);
+		
+		JLabel localidadPreferida= new JLabel("Localidad");
+		localidadPreferida.setBounds(20, 565, 46, 14);
+		panel.add(localidadPreferida);
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(133, 8, 164, 20);
@@ -182,74 +209,75 @@ public class VentanaPersona extends JFrame
 		DefaultComboBoxModel modeloTiposContacto=  new DefaultComboBoxModel(tc.mostrarTiposContacto());
 		txtTipo.setModel(modeloTiposContacto);
 				
-		//LEER PAISES,PROVINCIAS Y LOCALIDADES
-		
-				paises = new ArrayList<String>();
-				provincias = new ArrayList<String>();
-				localidades = new ArrayList<String>();
-				int numPais = 0;
-				int numProvincia = 0;
+		txtPais = new JComboBox(paises.toArray());
+		txtPais.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Pais pais = (Pais) txtPais.getSelectedItem();
+				Provincia provincia = new Provincia();
+				DefaultComboBoxModel modeloProvincia = new DefaultComboBoxModel(provincia.mostrarProvincias(pais.getIdPais())); 
+				txtProvincia.setModel(modeloProvincia);
+				txtLocalidad.removeAllItems();
+			}
+		});
+		txtPais.setBounds(135, 356, 162, 22);		
 				
-				cargarLocalidades(numPais,numProvincia);
-				
-				
+		Pais paises = new Pais();
+		DefaultComboBoxModel modeloPaises = new DefaultComboBoxModel(paises.mostrarPaises());
+		txtPais.setModel(modeloPaises);
+		panel.add(txtPais);
+			
+		txtProvincia = new JComboBox(provincias.toArray());
+		txtProvincia.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Provincia provincia = (Provincia) txtProvincia.getSelectedItem();
+				Localidad localidad = new Localidad();
+				DefaultComboBoxModel modeloLocalidad = new DefaultComboBoxModel(localidad.mostrarLocalidades(provincia.getIdProvincia())); 
+				txtLocalidad.setModel(modeloLocalidad);
+			}
+		});
+		txtProvincia.setBounds(135, 396, 162, 22);
+		panel.add(txtProvincia);
 					
-				/////////////////////////////
-				
-				txtProvincia = new JComboBox(provincias.toArray());
-				txtProvincia.setBounds(132, 400, 162, 22);
-				panel.add(txtProvincia);
-				
-				ItemListener provinciaListener = new ItemListener() {
-					public void itemStateChanged(ItemEvent e) {
-						int numPais = txtPais.getSelectedIndex();
-						int numProvincia = txtProvincia.getSelectedIndex();
-						txtLocalidad.removeAllItems();
-						cargarLocalidades(numPais,numProvincia);
-						for(String localidad : localidades) {
-							txtLocalidad.addItem(localidad);
-						}
-					}
-				};
-				
-				txtProvincia.addItemListener(provinciaListener);
-				
-				txtPais = new JComboBox(paises.toArray());
-				txtPais.setBounds(132, 360, 162, 22);
-				panel.add(txtPais);
-				
-				ItemListener paisListener = new ItemListener() {
-					public void itemStateChanged(ItemEvent e) {
-						int numPais = txtPais.getSelectedIndex();
-						txtProvincia.removeItemListener(provinciaListener);
-						txtProvincia.removeAllItems();				
-						txtLocalidad.removeAllItems();
-						int numProvincia = 0;
-						cargarLocalidades(numPais,numProvincia);
-						for(String provincia : provincias) {
-							txtProvincia.addItem(provincia);
-						}
-						txtProvincia.addItemListener(provinciaListener);
-						for(String localidad : localidades) {
-							txtLocalidad.addItem(localidad);
-						}
-					}
-				};
-				
-				txtPais.addItemListener(paisListener);
-				
-				
-				
-				txtLocalidad = new JComboBox(localidades.toArray());
-				txtLocalidad.setBounds(132, 440, 162, 22);
-				panel.add(txtLocalidad);
-				
+		txtLocalidad = new JComboBox(localidades.toArray());
+		txtLocalidad.setBounds(135, 436, 162, 22);
+		panel.add(txtLocalidad);
+		
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(208, 480, 89, 23);
-		panel.add(btnAgregarPersona);
+		btnAgregarPersona.setBounds(208, 594, 89, 23);
+		panel.add(btnAgregarPersona);	
 		
+		txtPaisPref = new JComboBox();
+		txtPaisPref.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Pais pais = (Pais) txtPaisPref.getSelectedItem();
+				Provincia provincia = new Provincia();
+				DefaultComboBoxModel modeloProvincia = new DefaultComboBoxModel(provincia.mostrarProvincias(pais.getIdPais())); 
+				txtProvinciaPref.setModel(modeloProvincia);
+				txtLocalidadPref.removeAllItems();
+			}
+		});
+		txtPaisPref.setBounds(133, 503, 164, 22);
+		Pais paisesPref = new Pais();
+		DefaultComboBoxModel modeloPaisesPref = new DefaultComboBoxModel(paisesPref.mostrarPaises());
+		txtPaisPref.setModel(modeloPaisesPref);
+		panel.add(txtPaisPref);
 		
-				
+		txtProvinciaPref= new JComboBox();
+		txtProvinciaPref.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				Provincia provincia = (Provincia) txtProvinciaPref.getSelectedItem();
+				Localidad localidad = new Localidad();
+				DefaultComboBoxModel modeloLocalidad = new DefaultComboBoxModel(localidad.mostrarLocalidades(provincia.getIdProvincia())); 
+				txtLocalidadPref.setModel(modeloLocalidad);
+			}
+		});
+		txtProvinciaPref.setBounds(133, 532, 164, 22);
+		panel.add(txtProvinciaPref);
+		
+		txtLocalidadPref= new JComboBox();
+		txtLocalidadPref.setBounds(133, 561, 164, 22);
+		panel.add(txtLocalidadPref);
+						
 		this.setVisible(false);
 	}
 	
@@ -308,60 +336,25 @@ public class VentanaPersona extends JFrame
 		return txtLocalidad;
 	}
 	
-
+	public JComboBox getTxtPaisPref() {
+		return txtPaisPref;
+	}
+	
+	public JComboBox getTxtProvinciaPref() {
+		return txtProvinciaPref;
+	}
+	
+	public JComboBox getTxtLocalidadPref() {
+		return txtLocalidadPref;
+	}
+	
+	
+	
 	public JButton getBtnAgregarPersona() 
 	{
 		return btnAgregarPersona;
 	}
 	
-	
-	public void cargarLocalidades(int numPais,int numProvincia){
-		paises.clear();
-		provincias.clear();
-		localidades.clear();
-		
-		JSONParser jsonParser = new JSONParser();
-		try(FileReader reader = new FileReader("src/main/resources/localidad.json")){
-			Object obj = jsonParser.parse(reader);
-			
-			JSONArray localidadesObj =  (JSONArray) obj;
-			
-			//Cargar paises
-			for(int i=0;i<localidadesObj.size();i++) {
-				JSONObject paisObject = (JSONObject) localidadesObj.get(i);
-				paises.add(paisObject.get("nombre").toString());
-								
-			}
-			
-			JSONObject paisObject = (JSONObject) localidadesObj.get(numPais);
-			JSONArray provinciasArr = (JSONArray) paisObject.get("provincias");
-			
-			for(int i=0;i<provinciasArr.size();i++) {
-				JSONObject provinciasObject = (JSONObject) provinciasArr.get(i);
-				provincias.add(provinciasObject.get("nombre").toString());
-				
-			}
-			
-			JSONObject provinciasObject = (JSONObject) provinciasArr.get(numProvincia);
-			JSONArray localidadesArr = (JSONArray) provinciasObject.get("localidades");
-			
-			for(int i=0;i<localidadesArr.size();i++) {
-				JSONObject localidadesObject = (JSONObject) localidadesArr.get(i);
-				localidades.add(localidadesObject.get("nombre").toString());
-				
-			}
-				
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-
 	public void cerrar()
 	{
 		this.txtNombre.setText(null);

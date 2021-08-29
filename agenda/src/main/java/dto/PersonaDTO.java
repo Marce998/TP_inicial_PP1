@@ -14,8 +14,9 @@ public class PersonaDTO
 	private String pais;
 	private String provincia;
 	private String localidad;
+	private String ciudadPref;
 
-	public PersonaDTO(int idPersona, String nombre, String telefono,String email,java.sql.Date fechaNac, String domicilio, String tipo, String pais, String provincia, String localidad)
+	public PersonaDTO(int idPersona, String nombre, String telefono,String email,java.sql.Date fechaNac, String domicilio, String tipo, String pais, String provincia, String localidad, String ciudadPref)
 	{
 		this.idPersona = idPersona;
 		this.nombre = nombre;
@@ -27,6 +28,7 @@ public class PersonaDTO
 		this.pais = pais;
 		this.provincia = provincia;
 		this.localidad = localidad;
+		this.ciudadPref = ciudadPref;
 		
 	}
 	
@@ -114,5 +116,13 @@ public class PersonaDTO
 	
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+	
+	public String getCiudadPref() {
+		return this.ciudadPref;
+	}
+	
+	public void setCiudadPref(String ciudadPref) {
+		this.ciudadPref = ciudadPref;
 	}
 }
