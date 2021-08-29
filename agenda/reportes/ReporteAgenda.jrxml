@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="479"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="521"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="cGVyc29uYXMgLDE1LDE1LGY0OWYyNGJkLTU0ZDgtNDYxYy1hYmM2LWE2MjRhYmZkY2IyYjs="/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="Fecha" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
@@ -109,7 +109,7 @@
 					<textElement>
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[ "Total : " + $V{REPORT_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Total : " + $V{Tipo de Contacto_COUNT}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -179,7 +179,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="7" splitType="Stretch"/>
+		<band height="172" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="33" splitType="Stretch">
