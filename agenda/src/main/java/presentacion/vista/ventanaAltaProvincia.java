@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import persistencia.datosDesplegables.mysql.Pais;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ventanaAltaProvincia extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,13 @@ public class ventanaAltaProvincia extends JFrame {
 	public ventanaAltaProvincia() {
 		
 		super();
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				txtPais.setSelectedIndex(0);
+				txtNuevaProvincia.setText(null);
+			}
+		});
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 465, 262);

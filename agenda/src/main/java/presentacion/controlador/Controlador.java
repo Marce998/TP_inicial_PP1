@@ -195,15 +195,40 @@ public class Controlador implements ActionListener
 					indice++;
 				}
 				
+				Pais p= new Pais();
+				List<Pais> paises= p.mostrarPaises();
+				int indicePais=0;
+				while(!paises.get(indicePais).getNombrePais().equals(this.personasEnTabla.get(filaSeleccionada).getPais())) {
+					indicePais++;
+				}
+				
+				Provincia prov= new Provincia();
+				List<Provincia> provincias=prov.mostrarProvincias(paises.get(indicePais).getIdPais());
+				int indiceProv=0;
+				while(!provincias.get(indiceProv).getNombreProvincia().equals(this.personasEnTabla.get(filaSeleccionada).getProvincia())) {
+					indiceProv++;
+				}
+				
+				Localidad loc= new Localidad();
+				List<Localidad> localidades = loc.mostrarLocalidades(provincias.get(indiceProv).getIdProvincia());
+				int indiceLoc=0;
+				while(!localidades.get(indiceLoc).getNombreLocalidad().equals(this.personasEnTabla.get(filaSeleccionada).getLocalidad())) {
+					indiceLoc++;
+				}
+				
+				
 				// setea los campos para que aparezcan cargados de acuerdo a los datos de la persona
 				this.ventanaEditarPersona.getTxtNombre().setText(this.personasEnTabla.get(filaSeleccionada).getNombre());
 				this.ventanaEditarPersona.getTxtTelefono().setText(this.personasEnTabla.get(filaSeleccionada).getTelefono());
 				this.ventanaEditarPersona.getTxtEmail().setText(this.personasEnTabla.get(filaSeleccionada).getEmail());
 				this.ventanaEditarPersona.getTxtFechaNac().setText(this.personasEnTabla.get(filaSeleccionada).getFechaNac().toString());
 				this.ventanaEditarPersona.getTxtTipo().setSelectedIndex(indice);
-				this.ventanaEditarPersona.getTxtPais().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getPais());
-				this.ventanaEditarPersona.getTxtProvincia().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getProvincia());
-				this.ventanaEditarPersona.getTxtLocalidad().setSelectedItem(this.personasEnTabla.get(filaSeleccionada).getLocalidad());
+				this.ventanaEditarPersona.getTxtPais().setSelectedIndex(indicePais);
+				this.ventanaEditarPersona.getTxtProvincia().setSelectedIndex(indiceProv);
+				this.ventanaEditarPersona.getTxtLocalidad().setSelectedIndex(indiceLoc);
+				//this.ventanaEditarPersona.getTxtPaisPref().setSelectedIndex(indicePaisPref);
+				//this.ventanaEditarPersona.getTxtProvinciaPref().setSelectedIndex(indiceProvPref);
+				//this.ventanaEditarPersona.getTxtLocalidadPref().setSelectedIndex(indiceLocPref);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Debe seleccionar un contacto de la agenda para editarlo");
@@ -265,6 +290,7 @@ public class Controlador implements ActionListener
 			persona.setPais(this.ventanaEditarPersona.getTxtPais().getSelectedItem().toString());
 			persona.setProvincia(this.ventanaEditarPersona.getTxtProvincia().getSelectedItem().toString());
 			persona.setLocalidad(this.ventanaEditarPersona.getTxtLocalidad().getSelectedItem().toString());
+			persona.setCiudadPref(this.ventanaEditarPersona.getTxtLocalidadPref().getSelectedItem().toString());
 	
 			this.agenda.actualizarPersona(persona);
 	
@@ -455,7 +481,7 @@ public class Controlador implements ActionListener
 			this.ventanaAltaLocalidad.getTxtPais().setModel(modeloPaises);
 			this.ventanaBajaPais.getTxtPais().setModel(modeloPaises);
 			this.ventanaBajaProvincia.getTxtPais().setModel(modeloPaises);
-			this.ventanaBajaLocalidad.getTxtPais().setModel(modeloPaises);		
+			this.ventanaBajaLocalidad.getTxtPais().setModel(modeloPaises);
 		}
 		
 		private void refrescarProvincia(int idPais) {

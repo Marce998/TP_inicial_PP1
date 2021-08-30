@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ventanaAltaPais extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +33,13 @@ public class ventanaAltaPais extends JFrame {
 	public ventanaAltaPais() {
 		
 		super();
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				txtNuevoPais.setText(null);
+			}
+		});
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 465, 182);
