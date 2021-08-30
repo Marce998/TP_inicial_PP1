@@ -16,6 +16,8 @@ import javax.swing.border.EmptyBorder;
 import persistencia.datosDesplegables.mysql.Localidad;
 import persistencia.datosDesplegables.mysql.Pais;
 import persistencia.datosDesplegables.mysql.Provincia;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ventanaBajaLocalidad extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,13 @@ public class ventanaBajaLocalidad extends JFrame {
 	public ventanaBajaLocalidad() {
 		
 		super();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				txtPais.setSelectedIndex(0);
+			}
+		});
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 465, 282);

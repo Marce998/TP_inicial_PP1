@@ -33,6 +33,8 @@ import persistencia.datosDesplegables.mysql.Localidad;
 import persistencia.datosDesplegables.mysql.Pais;
 import persistencia.datosDesplegables.mysql.Provincia;
 import persistencia.datosDesplegables.mysql.tipoContacto;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class VentanaPersona extends JFrame 
@@ -74,6 +76,17 @@ public class VentanaPersona extends JFrame
 	private VentanaPersona() 
 	{
 		super();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				txtTipo.setSelectedIndex(0);
+				txtPais.setSelectedIndex(0);
+				txtPaisPref.setSelectedIndex(0);
+			}
+		});
+		
+		
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 454, 678);
