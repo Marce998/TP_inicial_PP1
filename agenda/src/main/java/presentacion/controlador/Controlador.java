@@ -290,7 +290,7 @@ public class Controlador implements ActionListener
 			persona.setPais(this.ventanaEditarPersona.getTxtPais().getSelectedItem().toString());
 			persona.setProvincia(this.ventanaEditarPersona.getTxtProvincia().getSelectedItem().toString());
 			persona.setLocalidad(this.ventanaEditarPersona.getTxtLocalidad().getSelectedItem().toString());
-			persona.setCiudadPref(this.ventanaEditarPersona.getTxtLocalidadPref().getSelectedItem().toString());
+			persona.setCiudadPref(this.ventanaEditarPersona.getTxtPaisPref().getSelectedItem().toString() + ", " + this.ventanaEditarPersona.getTxtProvinciaPref().getSelectedItem().toString() + ", " + this.ventanaEditarPersona.getTxtLocalidadPref().getSelectedItem().toString());
 	
 			this.agenda.actualizarPersona(persona);
 	
