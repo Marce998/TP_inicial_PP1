@@ -196,7 +196,7 @@
 		<band height="231">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="140" y="0" width="291" height="180" uuid="283b5684-8502-4be8-ac09-648962e5ae9a"/>
+					<reportElement key="" x="140" y="0" width="291" height="180" uuid="d07bc4b1-2b4e-44c3-a300-94854cd9e465"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
