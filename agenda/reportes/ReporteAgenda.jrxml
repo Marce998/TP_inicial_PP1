@@ -206,7 +206,7 @@
 		<band height="195" splitType="Stretch">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="170" y="15" width="237" height="180" uuid="4b1e722f-3963-4585-a3e0-71ea2772ed5b"/>
+					<reportElement x="170" y="15" width="237" height="180" uuid="4dc8bd36-df9b-416f-a968-c1b6ef1ec6a2"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -217,7 +217,7 @@
 					<valueExpression><![CDATA[$V{Tipo de Contacto_COUNT}]]></valueExpression>
 					<labelExpression><![CDATA[$V{Tipo de Contacto_COUNT}.toString()]]></labelExpression>
 				</pieDataset>
-				<piePlot>
+				<piePlot labelFormat="{0} {2}">
 					<plot/>
 					<itemLabel/>
 				</piePlot>
