@@ -64,17 +64,17 @@ INSERT INTO provincias VALUES (1, 'Buenos Aires',1),
 (2, 'Catamarca',1),
 (3, 'Chaco',1),
 (4, 'Chubut',1),
-(5, 'Córdoba',1),
+(5, 'Cï¿½rdoba',1),
 (6, 'Corrientes',1),
-(7, 'Entre Ríos',1),
+(7, 'Entre Rï¿½os',1),
 (8, 'Formosa',1),
 (9, 'Jujuy',1),
 (10, 'La Pampa',1),
 (11, 'La Rioja',1),
 (12, 'Mendoza',1),
 (13, 'Misiones',1),
-(14, 'Neuquén',1),
-(15, 'Río Negro',1),
+(14, 'Neuquï¿½n',1),
+(15, 'Rï¿½o Negro',1),
 (16, 'Salta',1),
 (17, 'San Juan',1),
 (18, 'San Luis',1),
@@ -82,24 +82,24 @@ INSERT INTO provincias VALUES (1, 'Buenos Aires',1),
 (20, 'Santa Fe',1),
 (21, 'Santiago del Estero',1),
 (22, 'Tierra del Fuego',1),
-(23, 'Tucumán',1);
+(23, 'Tucumï¿½n',1);
 
 INSERT INTO localidades VALUES(1,"San Miguel",1);
 INSERT INTO localidades VALUES(2,"Malvinas Argentinas",1);
-INSERT INTO localidades VALUES(3,"José C. Paz",1);
+INSERT INTO localidades VALUES(3,"Josï¿½ C. Paz",1);
 INSERT INTO localidades VALUES(4,"Moreno",1);
 INSERT INTO localidades VALUES(5,"San Fernando del Valle de Catamarca",2);
 INSERT INTO localidades VALUES(6,"Resistencia",3);
 INSERT INTO localidades VALUES(7,"Rawson",4);
 INSERT INTO localidades VALUES(8,"Puerto Madryn",4);
-INSERT INTO localidades VALUES(9,"Córdiba",5);
-INSERT INTO localidades VALUES(10,"Río Cuarto",5);
+INSERT INTO localidades VALUES(9,"Cordoba",5);
+INSERT INTO localidades VALUES(10,"Rio Cuarto",5);
 INSERT INTO localidades VALUES(11,"Villa Carlos Paz",5);
-INSERT INTO localidades VALUES(12,"Cosquín",5);
+INSERT INTO localidades VALUES(12,"Cosquin",5);
 INSERT INTO localidades VALUES(13,"Corrientes",6);
-INSERT INTO localidades VALUES(14,"Paraná",7);
+INSERT INTO localidades VALUES(14,"Parana",7);
 INSERT INTO localidades VALUES(15,"Gualeguay",7);
-INSERT INTO localidades VALUES(16,"Gualeguaychú",7);
+INSERT INTO localidades VALUES(16,"Gualeguaychu",7);
 INSERT INTO localidades VALUES(17,"Formosa",8);
 INSERT INTO localidades VALUES(18,"San Salvador de Jujuy",9);
 INSERT INTO localidades VALUES(19,"Santa Rosa",10);
@@ -107,8 +107,8 @@ INSERT INTO localidades VALUES(20,"La Rioja",11);
 INSERT INTO localidades VALUES(21,"Mendoza",12);
 INSERT INTO localidades VALUES(22,"Godoy Cruz",12);
 INSERT INTO localidades VALUES(23,"Posadas",13);
-INSERT INTO localidades VALUES(24,"Iguasú",13);
-INSERT INTO localidades VALUES(25,"Neuquén",14);
+INSERT INTO localidades VALUES(24,"Iguazu",13);
+INSERT INTO localidades VALUES(25,"Neuquen",14);
 INSERT INTO localidades VALUES(26,"Villa La Angostura",14);
 INSERT INTO localidades VALUES(27,"Viedma",15);
 INSERT INTO localidades VALUES(28,"Bariloche",15);
@@ -119,16 +119,16 @@ INSERT INTO localidades VALUES(32,"Santa Fe",20);
 INSERT INTO localidades VALUES(33,"Rosario",20);
 INSERT INTO localidades VALUES(34,"Rafaela",20);
 INSERT INTO localidades VALUES(35,"Venado Tuerto",20);
-INSERT INTO localidades VALUES(36,"Río Gallegos",19);
+INSERT INTO localidades VALUES(36,"Rio Gallegos",19);
 INSERT INTO localidades VALUES(37,"Santiago Del Estero",21);
 INSERT INTO localidades VALUES(38,"Ushuaia",22);
-INSERT INTO localidades VALUES(39,"San Miguel de Tucumán",23);
+INSERT INTO localidades VALUES(39,"San Miguel de Tucumï¿½n",23);
 
 INSERT INTO provincias VALUES (24,"Montevideo",2),
 (25,"Canelones",2),
 (26,"Colonia",2),
 (27,"Durazno",2),
-(28,"Paysandú",2),
+(28,"Paysandu",2),
 (29,"Salto",2),
 (30,"Maldonado",2);
 
@@ -136,14 +136,14 @@ INSERT INTO localidades VALUES(40,"Montevideo",24);
 INSERT INTO localidades VALUES(41,"Canelones",25);
 INSERT INTO localidades VALUES(42,"Colonia del Sacramento",26);
 INSERT INTO localidades VALUES(43,"Durazno",27);
-INSERT INTO localidades VALUES(44,"Paysandú",28);
+INSERT INTO localidades VALUES(44,"Paysandu",28);
 INSERT INTO localidades VALUES(45,"Salto",29);
 INSERT INTO localidades VALUES(46,"Maldonado",30);
 
 INSERT INTO provincias VALUES 
 (31, 'Amazonas', 3),
 (32, 'Bahia',3),
-(33, 'Goiás', 3),
+(33, 'Goiï¿½s', 3),
 (34, 'Pernambuco',3),
 (35, 'Rio de Janeiro',3),
 (36, 'Sao Paulo',3);
