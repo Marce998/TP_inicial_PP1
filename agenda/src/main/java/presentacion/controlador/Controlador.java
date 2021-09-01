@@ -30,6 +30,7 @@ import presentacion.vista.ventanaBajaLocalidades;
 import presentacion.vista.ventanaBajaPais;
 import presentacion.vista.ventanaBajaProvincia;
 import presentacion.vista.ventanaBajaLocalidad;
+import presentacion.vista.ventanaEditarLocalidades;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener
@@ -52,6 +53,7 @@ public class Controlador implements ActionListener
 		private ventanaBajaPais ventanaBajaPais;
 		private ventanaBajaProvincia ventanaBajaProvincia;
 		private ventanaBajaLocalidad ventanaBajaLocalidad;
+		private ventanaEditarLocalidades ventanaEditarLocalidades;
 		private Agenda agenda;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -86,6 +88,7 @@ public class Controlador implements ActionListener
 			this.ventanaABMLocalidades = ventanaABMLocalidades.getInstance();
 			this.ventanaABMLocalidades.getBtnAgregarLocalidad().addActionListener(ls->ventanaAltaLocalidades(ls));
 			this.ventanaABMLocalidades.getBtnEliminarLocalidad().addActionListener(ls->ventanaBajaLocalidades(ls));
+			this.ventanaABMLocalidades.getBtnEditarLocalidad().addActionListener(ls->ventanaEditarLocalidades(ls));
 			
 			this.ventanaAltaLocalidades = ventanaAltaLocalidades.getInstance();
 			this.ventanaAltaLocalidades.getBtnAgregarNuevoPais().addActionListener(pa->ventanaAltaPais(pa));
@@ -114,6 +117,11 @@ public class Controlador implements ActionListener
 			
 			this.ventanaBajaLocalidad = ventanaBajaLocalidad.getInstance();
 			this.ventanaBajaLocalidad.getBtnBorrarLocalidad().addActionListener(b->borrarLocalidad(b));
+			
+			this.ventanaEditarLocalidades = ventanaEditarLocalidades.getInstance();
+			this.ventanaEditarLocalidades.getBtnEditarPais().addActionListener(e->editarPais(e));
+			this.ventanaEditarLocalidades.getBtnEditarProvincia().addActionListener(e->editarProvincia(e));
+			this.ventanaEditarLocalidades.getBtnEditarLocalidad().addActionListener(e->editarLocalidad(e));
 			
 			this.ventanaEditarPersona=VentanaEditarPersona.getInstance();
 			this.ventanaEditarPersona.getBtnAplicarCambios().addActionListener(e->aplicarCambiosPersona(e));
@@ -176,6 +184,10 @@ public class Controlador implements ActionListener
 		
 		private void ventanaBajaLocalidad(ActionEvent e) {
 			this.ventanaBajaLocalidad.mostrarVentana();
+		}
+		
+		private void ventanaEditarLocalidades(ActionEvent e) {
+			this.ventanaEditarLocalidades.mostrarVentana();
 		}
 		
 					
@@ -439,9 +451,42 @@ public class Controlador implements ActionListener
 			
 			localidad.deleteFromMySql(localidad.getIdLocalidad());
 			this.refrescarTabla();
-			this.refrescarProvincia(provincia.getIdProvincia());
+			this.refrescarLocalidad(provincia.getIdProvincia());
 			this.ventanaBajaLocalidad.cerrar();
 		}
+		
+		private void editarPais(ActionEvent e) {
+			Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
+			String nuevoPais = ventanaEditarLocalidades.getTxtNuevoPais().getText();
+			
+			pais.updateToMySql(pais.getIdPais(), nuevoPais);
+			this.refrescarTabla();
+			this.refrescarPais();
+			this.ventanaEditarLocalidades.cerrar();			
+		}
+		
+		private void editarProvincia(ActionEvent e) {
+			Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
+			Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
+			String nuevaProvincia = ventanaEditarLocalidades.getTxtNuevaProvincia().getText();
+			
+			provincia.updateToMySql(provincia.getIdProvincia(), nuevaProvincia);
+			this.refrescarTabla();
+			this.refrescarProvincia(pais.getIdPais());
+			this.ventanaEditarLocalidades.cerrar();
+		}
+		
+		private void editarLocalidad(ActionEvent e) {
+			Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
+			Localidad localidad = (Localidad) ventanaEditarLocalidades.getTxtLocalidad().getSelectedItem();
+			String nuevaLocalidad = ventanaEditarLocalidades.getTxtNuevaLocalidad().getText();
+			
+			localidad.updateToMySql(localidad.getIdLocalidad(), nuevaLocalidad);
+			this.refrescarTabla();
+			this.refrescarLocalidad(provincia.getIdProvincia());
+			this.ventanaEditarLocalidades.cerrar();			
+		}
+
 
 		private void mostrarReporte(ActionEvent r) {
 			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonasPorTipo());

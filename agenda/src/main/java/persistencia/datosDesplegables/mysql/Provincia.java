@@ -130,4 +130,33 @@ public class Provincia {
 		} return borradoExitoso;
 		
 	}
+	
+	public boolean updateToMySql(int idProvincia, String nuevaProvincia) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso=false;
+		String sql = "UPDATE provincias SET nombre=? WHERE id_provincia=?";
+		
+		try {
+			statement = conexion.prepareStatement(sql);
+			statement.setString(1, nuevaProvincia);
+			statement.setInt(2, idProvincia);
+			
+			if(statement.executeUpdate()>0) {
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isUpdateExitoso;
+	}
 }

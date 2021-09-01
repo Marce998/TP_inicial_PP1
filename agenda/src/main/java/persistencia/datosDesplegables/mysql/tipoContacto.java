@@ -142,9 +142,5 @@ public class tipoContacto {
 	
 	public String toString() {
 		return this.tipo;
-	}
-	
-	
-	
-	
+	}	
 }

@@ -137,4 +137,33 @@ public class Pais {
 		} return borradoExitoso;
 		
 	}
+	
+	public boolean updateToMySql(int idPais, String nuevoPais) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso=false;
+		String sql = "UPDATE paises SET nombre=? WHERE id_pais=?";
+		
+		try {
+			statement = conexion.prepareStatement(sql);
+			statement.setString(1, nuevoPais);
+			statement.setInt(2, idPais);
+			
+			if(statement.executeUpdate()>0) {
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isUpdateExitoso;
+	}
 }

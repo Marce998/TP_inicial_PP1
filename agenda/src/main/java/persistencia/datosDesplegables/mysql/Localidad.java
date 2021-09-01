@@ -119,4 +119,33 @@ public class Localidad {
 			}
 		} return borradoExitoso;
 	}
+	
+	public boolean updateToMySql(int idLocalidad, String nuevaLocalidad) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso=false;
+		String sql = "UPDATE localidades SET nombre=? WHERE id_localidad=?";
+		
+		try {
+			statement = conexion.prepareStatement(sql);
+			statement.setString(1, nuevaLocalidad);
+			statement.setInt(2, idLocalidad);
+			
+			if(statement.executeUpdate()>0) {
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isUpdateExitoso;
+	}
 }
