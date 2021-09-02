@@ -632,26 +632,40 @@ public class Controlador implements ActionListener
 			Pais pais = new Pais();
 			DefaultComboBoxModel modeloPaises = new DefaultComboBoxModel(pais.mostrarPaises());
 			this.ventanaPersona.getTxtPais().setModel(modeloPaises);
+			this.ventanaPersona.getTxtPaisPref().setModel(modeloPaises);
+			this.ventanaEditarPersona.getTxtPais().setModel(modeloPaises);
+			this.ventanaEditarPersona.getTxtPaisPref().setModel(modeloPaises);
 			this.ventanaAltaProvincia.getTxtPais().setModel(modeloPaises);
 			this.ventanaAltaLocalidad.getTxtPais().setModel(modeloPaises);
 			this.ventanaBajaPais.getTxtPais().setModel(modeloPaises);
 			this.ventanaBajaProvincia.getTxtPais().setModel(modeloPaises);
 			this.ventanaBajaLocalidad.getTxtPais().setModel(modeloPaises);
+			this.ventanaEditarLocalidades.getTxtPais().setModel(modeloPaises);
 		}
 		
 		private void refrescarProvincia(int idPais) {
 			Provincia provincia = new Provincia();
 			DefaultComboBoxModel modeloProvincias = new DefaultComboBoxModel(provincia.mostrarProvincias(idPais));
 			this.ventanaPersona.getTxtProvincia().setModel(modeloProvincias);
+			this.ventanaPersona.getTxtProvinciaPref().setModel(modeloProvincias);
+			this.ventanaEditarPersona.getTxtProvincia().setModel(modeloProvincias);
+			this.ventanaEditarPersona.getTxtProvinciaPref().setModel(modeloProvincias);
 			this.ventanaAltaLocalidad.getTxtProvincia().setModel(modeloProvincias);
+			this.ventanaBajaProvincia.getTxtProvincia().setModel(modeloProvincias);
+			this.ventanaBajaLocalidad.getTxtProvincia().setModel(modeloProvincias);
+			this.ventanaEditarLocalidades.getTxtProvincia().setModel(modeloProvincias);
 		}
 		
 		private void refrescarLocalidad(int idProvincia) {
 			Localidad localidad = new Localidad();
 			DefaultComboBoxModel modeloLocalidades = new DefaultComboBoxModel(localidad.mostrarLocalidades(idProvincia));
 			this.ventanaPersona.getTxtLocalidad().setModel(modeloLocalidades);
+			this.ventanaPersona.getTxtLocalidadPref().setModel(modeloLocalidades);
+			this.ventanaEditarPersona.getTxtLocalidad().setModel(modeloLocalidades);
+			this.ventanaEditarPersona.getTxtLocalidadPref().setModel(modeloLocalidades);
+			this.ventanaBajaLocalidad.getTxtLocalidad().setModel(modeloLocalidades);
+			this.ventanaEditarLocalidades.getTxtLocalidad().setModel(modeloLocalidades);
 		}
-
 
 		@Override
 		public void actionPerformed(ActionEvent e) { }
