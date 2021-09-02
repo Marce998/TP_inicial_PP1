@@ -385,11 +385,31 @@ public class Controlador implements ActionListener
 			Pais nuevoPais = new Pais();
 			nuevoPais.setIdPais(0);
 			nuevoPais.setNombrePais(stringPais);
-			nuevoPais.insertToMySQL(nuevoPais);
 			
-			this.refrescarTabla();
-			this.refrescarPais();
-			this.ventanaAltaPais.cerrar();
+			
+			if(stringPais.length()>0) {
+				boolean esNuevo = true;
+				List<Pais> listaPaises = nuevoPais.mostrarPaises();
+				for(Pais pais : listaPaises) {
+					if (nuevoPais.getNombrePais().toLowerCase().equals(pais.getNombrePais().toLowerCase())) {
+						esNuevo = false;
+					}
+				}
+				if(esNuevo) {
+					nuevoPais.insertToMySQL(nuevoPais);
+					this.refrescarTabla();
+					this.refrescarPais();
+					this.ventanaAltaPais.cerrar();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "No puede agregar un país ya existente");
+				}
+				
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+			}		
 		}
 		
 		private void agregarProvincia(ActionEvent a) {
@@ -397,16 +417,42 @@ public class Controlador implements ActionListener
 			Provincia nuevaProvincia = new Provincia();
 			nuevaProvincia.setIdProvincia(0);
 			nuevaProvincia.setNombreProvincia(stringProvincia);
-			
 			Pais pais = new Pais();
 			pais.setIdPais(ventanaAltaProvincia.getTxtPais().getSelectedIndex());
 			
-			nuevaProvincia.setIdPais(pais.getIdPais());
-			nuevaProvincia.insertToMySQL(nuevaProvincia);
+			boolean esValido = true;
 			
-			this.refrescarTabla();
-			this.refrescarProvincia(pais.getIdPais());
-			this.ventanaAltaProvincia.cerrar();
+			if(ventanaAltaProvincia.getTxtPais().getSelectedIndex() == 0) {
+				esValido = false;
+			}
+			
+			if(esValido) {
+				if(stringProvincia.length()>0) {
+					List<Provincia> listaProvincias = nuevaProvincia.mostrarProvincias(pais.getIdPais());
+					for(Provincia provincia: listaProvincias) {
+						if (nuevaProvincia.getNombreProvincia().toLowerCase().equals(provincia.getNombreProvincia().toLowerCase())) {
+							esValido = false;
+						}
+					}
+					if(esValido) {
+						nuevaProvincia.setIdPais(pais.getIdPais());
+						nuevaProvincia.insertToMySQL(nuevaProvincia);
+						this.refrescarTabla();
+						this.refrescarProvincia(pais.getIdPais());
+						this.ventanaAltaProvincia.cerrar();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No puede agregar una provincia ya existente");
+					}
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar un país");
+			}			
 		}
 		
 		private void agregarLocalidad(ActionEvent a) {
@@ -417,84 +463,148 @@ public class Controlador implements ActionListener
 			Localidad nuevaLocalidad= new Localidad();
 			nuevaLocalidad.setIdLocalidad(0);
 			nuevaLocalidad.setNombreLocalidad(stringLocalidad);
-			nuevaLocalidad.setIdProvincia(provincia.getIdProvincia());
 			
-			nuevaLocalidad.insertToMySQL(nuevaLocalidad);
+			boolean esValido = true;
 			
-			this.refrescarTabla();
-			this.refrescarLocalidad(provincia.getIdProvincia());
-			this.ventanaAltaLocalidad.cerrar();
+			if(ventanaAltaLocalidad.getTxtPais().getSelectedIndex() == 0 || ventanaAltaLocalidad.getTxtProvincia().getSelectedIndex() == 0) {
+				esValido = false;
+			}
+			
+			if(esValido) {
+				if(stringLocalidad.length()>0) {
+					List<Localidad> listaLocalidades = nuevaLocalidad.mostrarLocalidades(provincia.getIdProvincia());
+					for(Localidad localidad: listaLocalidades) {
+						if (nuevaLocalidad.getNombreLocalidad().toLowerCase().equals(localidad.getNombreLocalidad().toLowerCase())) {
+							esValido= false;
+						}
+					}
+					if(esValido) {
+						nuevaLocalidad.setIdProvincia(provincia.getIdProvincia());;
+						nuevaLocalidad.insertToMySQL(nuevaLocalidad);
+						this.refrescarTabla();
+						this.refrescarLocalidad(provincia.getIdProvincia());
+						this.ventanaAltaLocalidad.cerrar();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No puede agregar una localidad ya existente");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar un país y provincia");
+			}	
+					
 		}
 		
 		private void borrarPais(ActionEvent b) {
-			Pais pais = (Pais) ventanaBajaPais.getTxtPais().getSelectedItem();
-			
-			pais.deleteFromMySql(pais.getIdPais());
-			this.refrescarTabla();
-			this.refrescarPais();
-			this.ventanaBajaPais.cerrar();
+			if(ventanaBajaPais.getTxtPais().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país");
+			}
+			else {
+				Pais pais = (Pais) ventanaBajaPais.getTxtPais().getSelectedItem();
+				
+				pais.deleteFromMySql(pais.getIdPais());
+				this.refrescarTabla();
+				this.refrescarPais();
+				this.ventanaBajaPais.cerrar();
+			}		
 		}
 		
 		private void borrarProvincia(ActionEvent b) {
-			Pais pais = (Pais) ventanaBajaProvincia.getTxtPais().getSelectedItem();
-			Provincia provincia= (Provincia) ventanaBajaProvincia.getTxtProvincia().getSelectedItem();
-			
-			provincia.deleteFromMySql(provincia.getIdProvincia());
-			this.refrescarTabla();
-			this.refrescarProvincia(pais.getIdPais());
-			this.ventanaBajaProvincia.cerrar();
+			if(ventanaBajaProvincia.getTxtPais().getSelectedIndex() == 0 || ventanaBajaProvincia.getTxtProvincia().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país y provincia");
+			}
+			else {
+				Pais pais = (Pais) ventanaBajaProvincia.getTxtPais().getSelectedItem();
+				Provincia provincia= (Provincia) ventanaBajaProvincia.getTxtProvincia().getSelectedItem();
+				
+				provincia.deleteFromMySql(provincia.getIdProvincia());
+				this.refrescarTabla();
+				this.refrescarProvincia(pais.getIdPais());
+				this.ventanaBajaProvincia.cerrar();
+			}		
 		}
 		
 		private void borrarLocalidad(ActionEvent b) {
-			Localidad localidad = (Localidad) ventanaBajaLocalidad.getTxtLocalidad().getSelectedItem();
-			Provincia provincia = (Provincia) ventanaBajaLocalidad.getTxtProvincia().getSelectedItem();
-			
-			localidad.deleteFromMySql(localidad.getIdLocalidad());
-			this.refrescarTabla();
-			this.refrescarLocalidad(provincia.getIdProvincia());
-			this.ventanaBajaLocalidad.cerrar();
+			if(ventanaBajaLocalidad.getTxtPais().getSelectedIndex() == 0 || ventanaBajaLocalidad.getTxtProvincia().getSelectedIndex() == 0 || ventanaBajaLocalidad.getTxtLocalidad().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país, provincia y localidad");
+			}
+			else {
+				Localidad localidad = (Localidad) ventanaBajaLocalidad.getTxtLocalidad().getSelectedItem();
+				Provincia provincia = (Provincia) ventanaBajaLocalidad.getTxtProvincia().getSelectedItem();
+				
+				localidad.deleteFromMySql(localidad.getIdLocalidad());
+				this.refrescarTabla();
+				this.refrescarLocalidad(provincia.getIdProvincia());
+				this.ventanaBajaLocalidad.cerrar();
+			}
 		}
 		
 		private void editarPais(ActionEvent e) {
-			Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
-			String nuevoPais = ventanaEditarLocalidades.getTxtNuevoPais().getText();
-			
-			pais.updateToMySql(pais.getIdPais(), nuevoPais);
-			this.refrescarTabla();
-			this.refrescarPais();
-			this.ventanaEditarLocalidades.cerrar();			
+			if(ventanaEditarLocalidades.getTxtPais().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país");
+			}
+			else if(ventanaEditarLocalidades.getTxtNuevoPais().getText().length() > 0){
+				Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
+				String nuevoPais = ventanaEditarLocalidades.getTxtNuevoPais().getText();
+				
+				pais.updateToMySql(pais.getIdPais(), nuevoPais);
+				this.refrescarTabla();
+				this.refrescarPais();
+				this.ventanaEditarLocalidades.cerrar();
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+			}				
 		}
 		
 		private void editarProvincia(ActionEvent e) {
-			Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
-			Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
-			String nuevaProvincia = ventanaEditarLocalidades.getTxtNuevaProvincia().getText();
+			if(ventanaEditarLocalidades.getTxtPais().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtProvincia().getSelectedIndex() == 0 ) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país y provincia");
+			}
+			else if(ventanaEditarLocalidades.getTxtNuevaProvincia().getText().length() > 0) {
+				Pais pais = (Pais) ventanaEditarLocalidades.getTxtPais().getSelectedItem();
+				Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
+				String nuevaProvincia = ventanaEditarLocalidades.getTxtNuevaProvincia().getText();
+				
+				provincia.updateToMySql(provincia.getIdProvincia(), nuevaProvincia);
+				this.refrescarTabla();
+				this.refrescarProvincia(pais.getIdPais());
+				this.ventanaEditarLocalidades.cerrar();
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+			}	
 			
-			provincia.updateToMySql(provincia.getIdProvincia(), nuevaProvincia);
-			this.refrescarTabla();
-			this.refrescarProvincia(pais.getIdPais());
-			this.ventanaEditarLocalidades.cerrar();
 		}
 		
 		private void editarLocalidad(ActionEvent e) {
-			Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
-			Localidad localidad = (Localidad) ventanaEditarLocalidades.getTxtLocalidad().getSelectedItem();
-			String nuevaLocalidad = ventanaEditarLocalidades.getTxtNuevaLocalidad().getText();
-			
-			localidad.updateToMySql(localidad.getIdLocalidad(), nuevaLocalidad);
-			this.refrescarTabla();
-			this.refrescarLocalidad(provincia.getIdProvincia());
-			this.ventanaEditarLocalidades.cerrar();			
+			if(ventanaEditarLocalidades.getTxtPais().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtProvincia().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtLocalidad().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(null,"Se debe seleccionar país, provincia y localidad");
+			}
+			else if(ventanaEditarLocalidades.getTxtNuevaLocalidad().getText().length() > 0) {
+				Provincia provincia = (Provincia) ventanaEditarLocalidades.getTxtProvincia().getSelectedItem();
+				Localidad localidad = (Localidad) ventanaEditarLocalidades.getTxtLocalidad().getSelectedItem();
+				String nuevaLocalidad = ventanaEditarLocalidades.getTxtNuevaLocalidad().getText();
+				
+				localidad.updateToMySql(localidad.getIdLocalidad(), nuevaLocalidad);
+				this.refrescarTabla();
+				this.refrescarLocalidad(provincia.getIdProvincia());
+				this.ventanaEditarLocalidades.cerrar();	
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"No puede dejar el campo vacío, ingrese un valor válido");
+			}				
 		}
-
 
 		private void mostrarReporte(ActionEvent r) {
 			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonasPorTipo());
 			reporte.mostrar();	
 		}
-
-		
-		
+	
 		public void inicializar()
 		{
 			this.refrescarTabla();
