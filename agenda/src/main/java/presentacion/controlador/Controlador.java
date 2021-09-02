@@ -582,7 +582,7 @@ public class Controlador implements ActionListener
 		}
 		
 		private void editarLocalidad(ActionEvent e) {
-			if(ventanaEditarLocalidades.getTxtPais().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtProvincia().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtLocalidad().getSelectedIndex() == 0) {
+			if(ventanaEditarLocalidades.getTxtPais().getSelectedIndex() == 0 || ventanaEditarLocalidades.getTxtProvincia().getSelectedIndex() == 0) {
 				JOptionPane.showMessageDialog(null,"Se debe seleccionar país, provincia y localidad");
 			}
 			else if(ventanaEditarLocalidades.getTxtNuevaLocalidad().getText().length() > 0) {
