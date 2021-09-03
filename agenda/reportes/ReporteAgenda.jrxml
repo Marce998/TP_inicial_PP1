@@ -13,26 +13,17 @@
 	<field name="tipo" class="java.lang.String">
 		<fieldDescription><![CDATA[tipo]]></fieldDescription>
 	</field>
+	<field name="ciudadPref" class="java.lang.String">
+		<fieldDescription><![CDATA[ciudadPref]]></fieldDescription>
+	</field>
 	<field name="localidad" class="java.lang.String">
 		<fieldDescription><![CDATA[localidad]]></fieldDescription>
-	</field>
-	<field name="provincia" class="java.lang.String">
-		<fieldDescription><![CDATA[provincia]]></fieldDescription>
 	</field>
 	<field name="telefono" class="java.lang.String">
 		<fieldDescription><![CDATA[telefono]]></fieldDescription>
 	</field>
 	<field name="nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[nombre]]></fieldDescription>
-	</field>
-	<field name="idPersona" class="java.lang.Integer">
-		<fieldDescription><![CDATA[idPersona]]></fieldDescription>
-	</field>
-	<field name="pais" class="java.lang.String">
-		<fieldDescription><![CDATA[pais]]></fieldDescription>
-	</field>
-	<field name="ciudadPref" class="java.lang.String">
-		<fieldDescription><![CDATA[ciudadPref]]></fieldDescription>
 	</field>
 	<group name="Tipo de Contacto">
 		<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
@@ -196,7 +187,7 @@
 			<staticText>
 				<reportElement x="100" y="8" width="367" height="30" uuid="77249e78-f95e-478f-9efe-1c6de58d2f6a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Berlin Sans FB Demi" size="18"/>
+					<font fontName="SansSerif" size="18"/>
 				</textElement>
 				<text><![CDATA[Porcentaje de personas por tipo de contacto]]></text>
 			</staticText>

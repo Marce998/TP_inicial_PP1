@@ -3,26 +3,33 @@ package persistencia.conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 public class Conexion 
 {
 	public static Conexion instancia;
 	private Connection connection;
-	private Logger log = Logger.getLogger(Conexion.class);	
+	private Logger log = Logger.getLogger(Conexion.class);
+	private Map<String,String> users;
 	
 	public Conexion()
 	{
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda?useSSL=false","root","root");
+			String url = "jdbc:mysql://localhost:3306/agenda";//?useSSL=false
+			String mode = "?useSSL=false";
+			String user = "root";
+			String pass = "root";
+			this.connection = DriverManager.getConnection(url+mode,user,pass);
 			this.connection.setAutoCommit(false);
-			log.info("Conexión exitosa");
+			log.info("Conexiï¿½n exitosa");
 		}
 		catch(Exception e)
 		{
-			log.error("Conexión fallida", e);
+			log.error("Conexiï¿½n fallida", e);
 		}
 	}
 	
@@ -50,8 +57,15 @@ public class Conexion
 		}
 		catch (SQLException e) 
 		{
-			log.error("Error al cerrar la conexión!", e);
+			log.error("Error al cerrar la conexiï¿½n!", e);
 		}
 		instancia = null;
+	}
+	
+	//////////////gestion usuarios//////////////////
+	
+	public boolean addUser(String user, String pass) {
+		boolean user_added = false;
+		return user_added;
 	}
 }
