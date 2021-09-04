@@ -19,6 +19,7 @@ import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
 import presentacion.vista.ventanaABMtipoContacto;
 import presentacion.vista.ventanaAltaTipoContacto;
+import presentacion.vista.ventanaAutenticacion;
 import presentacion.vista.ventanaBajaTipoContacto;
 import presentacion.vista.ventanaEditarTipoContacto;
 import presentacion.vista.ventanaABMLocalidades;
@@ -55,8 +56,9 @@ public class Controlador implements ActionListener
 		private ventanaBajaLocalidad ventanaBajaLocalidad;
 		private ventanaEditarLocalidades ventanaEditarLocalidades;
 		private Agenda agenda;
+		private ventanaAutenticacion ventanaConexion;
 		
-		public Controlador(Vista vista, Agenda agenda)
+		public Controlador(Vista vista,ventanaAutenticacion ventanaConexion, Agenda agenda)
 		{
 			this.vista = vista;
 			this.vista.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
@@ -126,7 +128,8 @@ public class Controlador implements ActionListener
 			this.ventanaEditarPersona=VentanaEditarPersona.getInstance();
 			this.ventanaEditarPersona.getBtnAplicarCambios().addActionListener(e->aplicarCambiosPersona(e));
 			
-			this.agenda = agenda;	
+			this.agenda = agenda;
+			this.ventanaConexion= ventanaConexion;
 		}
 		
 
@@ -608,7 +611,18 @@ public class Controlador implements ActionListener
 		public void inicializar()
 		{
 			this.refrescarTabla();
-			this.vista.show();
+			this.ventanaConexion.mostrarVentana();
+			this.ventanaConexion.getBtnEntrar().addActionListener(v->mostrarVista(v));
+		}
+		
+		public void mostrarVista(ActionEvent v) {
+			if(this.ventanaConexion.getTxtUsuario().getText().equals("root") && this.ventanaConexion.getTxtContraseña().getText().equals("root")) {
+				this.vista.show();
+				this.ventanaConexion.setVisible(false);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Usuario y/o contraseña inválida, por favor ingrese valores válidos");
+			}
 		}
 		
 		private void refrescarTabla()

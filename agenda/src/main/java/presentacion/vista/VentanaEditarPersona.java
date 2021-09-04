@@ -356,6 +356,7 @@ public class VentanaEditarPersona extends JFrame
 		this.txtAltura.setText(null);
 		this.txtCalle.setText(null);
 		this.txtDepto.setText(null);
+		this.txtPaisPref.setSelectedIndex(0);
 		this.dispose();
 	}
 }
