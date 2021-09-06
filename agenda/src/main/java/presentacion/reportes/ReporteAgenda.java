@@ -9,13 +9,17 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.lowagie.text.pdf.codec.Base64.InputStream;
+
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import persistencia.conexion.Conexion;
 import dto.PersonaDTO;
 
 public class ReporteAgenda
@@ -30,8 +34,12 @@ public class ReporteAgenda
     	//Hardcodeado
 		Map<String, Object> parametersMap = new HashMap<String, Object>();
 		parametersMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));		
-    	try		{
-			this.reporte = (JasperReport) JRLoader.loadObjectFromFile( "reportes" + File.separator + "ReporteAgenda.jasper" );
+    	
+		try	{
+    		
+			//this.reporte = (JasperReport) JRLoader.loadObjectFromFile( "reportes/ReporteAgenda.jasper" );
+			File path= new File("reportes/ReporteAgenda.jasper");
+			this.reporte= (JasperReport) JRLoader.loadObject(path);
 			this.reporteLleno = JasperFillManager.fillReport(this.reporte, parametersMap, 
 					new JRBeanCollectionDataSource(personas));
     		log.info("Se cargo correctamente el reporte");
